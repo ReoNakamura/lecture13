@@ -165,7 +165,7 @@ Resources:
       Engine: mysql
       EngineVersion: 8.0.34
       MasterUsername: admin
-      MasterUserPassword: !Ref 
+      MasterUserPassword: !Ref RDSMasterUserPassword
       DBName: CFtestRDS
       BackupRetentionPeriod: 0
       MultiAZ: true
