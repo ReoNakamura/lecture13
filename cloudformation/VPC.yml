@@ -1,0 +1,151 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: 
+   Create VPC and Subnet
+
+Parameters: 
+  NameBase:
+    Description: this is base name.
+    Type: String
+    Default:  RaiseTech
+
+
+Resources: 
+
+   VPC1:
+     Type: AWS::EC2::VPC
+     Properties:
+       CidrBlock: 10.0.0.0/16
+       EnableDnsSupport: true
+       Tags:
+         - Key: Name
+           Value: !Sub vpc-${NameBase}
+
+   pubsub1a:
+     Type: AWS::EC2::Subnet
+     Properties:
+       AvailabilityZone: !Select [0, !GetAZs '']
+       VpcId: !Ref VPC1
+       CidrBlock: 10.0.1.0/24
+       MapPublicIpOnLaunch: true
+       Tags:
+         - Key: Name
+           Value: !Sub Subnet-Public1-${NameBase}
+        
+   pubsub1c:
+      Type: AWS::EC2::Subnet
+      Properties:
+        AvailabilityZone: !Select [0, !GetAZs '']
+        VpcId: !Ref VPC1
+        CidrBlock: 10.0.2.0/24
+        MapPublicIpOnLaunch: true
+        Tags:
+          - Key: Name
+            Value: !Sub Subnet-Public2-${NameBase}
+
+   privateSubnet2a:
+     Type: AWS::EC2::Subnet
+     Properties:
+       AvailabilityZone: !Select [0, !GetAZs '']
+       VpcId: !Ref VPC1
+       CidrBlock: 10.0.3.0/24
+       MapPublicIpOnLaunch: false
+       Tags:
+         - Key: Name
+           Value: !Sub Subnet-private1-${NameBase}
+
+   privateSubnet2c:
+     Type: AWS::EC2::Subnet
+     Properties:
+       AvailabilityZone: !Select [0, !GetAZs '']
+       VpcId: !Ref VPC1
+       CidrBlock: 10.0.4.0/24
+       MapPublicIpOnLaunch: false
+       Tags:
+         - Key: Name
+           Value: !Sub Subnet-private2-${NameBase}        
+
+   TestInternetGatway:
+     Type: AWS::EC2::InternetGateway
+     Properties:
+       Tags:
+         - Key: Name
+           Value: TestInternetGatway
+   AttachInternetGateway:
+     Type: AWS::EC2::VPCGatewayAttachment
+     Properties:
+       VpcId: !Ref VPC1
+       InternetGatewayId: !Ref TestInternetGatway
+
+   RouteTablePublicSubnet:
+      Type: AWS::EC2::RouteTable
+      Properties:
+       VpcId: !Ref VPC1
+       Tags:
+        - Key: Name
+          Value: RouteTablePublicSubnet   
+
+   RoutePublicSubnet:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref RouteTablePublicSubnet
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref  TestInternetGatway        
+
+   AssocciateRouteTableForPublicSubnet1a:
+     Type: AWS::EC2::SubnetRouteTableAssociation
+     Properties:
+       SubnetId: !Ref pubsub1a
+       RouteTableId: !Ref RouteTablePublicSubnet
+
+   AssocciateRouteTableForPublicSubnet1c:
+     Type: AWS::EC2::SubnetRouteTableAssociation
+     Properties:
+       SubnetId: !Ref pubsub1c
+       RouteTableId: !Ref RouteTablePublicSubnet
+
+   RouteTablePrivateSubnet:
+     Type: AWS::EC2::RouteTable
+     Properties:
+       VpcId: !Ref VPC1
+       Tags:
+         - Key: Name
+           Value: RouteTablePrivateSubnet
+
+   AssocciateRouteTableForPrivateSubnet2a:
+     Type: AWS::EC2::SubnetRouteTableAssociation
+     Properties:
+       SubnetId: !Ref privateSubnet2a
+       RouteTableId: !Ref RouteTablePrivateSubnet       
+             
+   AssocciateRouteTableForPrivateSubnet2c:
+     Type: AWS::EC2::SubnetRouteTableAssociation
+     Properties:
+       SubnetId: !Ref privateSubnet2c
+       RouteTableId: !Ref  RouteTablePrivateSubnet     
+
+Outputs:
+  VPC1: 
+    Value: !Ref VPC1
+    Export: 
+      Name: VPC1 
+
+  pubsub1a:
+    Value: !Ref pubsub1a
+    Export: 
+      Name: pubsub1a
+
+  pubsub1c: 
+    Value: !Ref pubsub1c
+    Export:
+      Name: pubsub1c
+
+  privateSubnet2a:    
+    Value: !Ref privateSubnet2a
+    Export:
+      Name: !Sub ${NameBase}-privateSubnet2a
+
+  privateSubnet2c: 
+   Value: !Ref privateSubnet2c
+   Export:
+     Name: !Sub ${NameBase}-privateSubnet2c
