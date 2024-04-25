@@ -7,6 +7,9 @@ Parameters:
     Description: this is base name.
     Type: String
     Default:  RaiseTech
+  RDSMasterUserPassword:
+    Type: String
+    NoEcho: true    
 
   OS:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
@@ -162,7 +165,7 @@ Resources:
       Engine: mysql
       EngineVersion: 8.0.34
       MasterUsername: admin
-      MasterUserPassword: dfdshkcdhak90
+      MasterUserPassword: !Ref 
       DBName: CFtestRDS
       BackupRetentionPeriod: 0
       MultiAZ: true
