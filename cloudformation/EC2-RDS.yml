@@ -1,0 +1,181 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: Create EC2 and RDS 
+
+Parameters: 
+  NameBase:
+    Description: this is base name.
+    Type: String
+    Default:  RaiseTech
+
+  OS:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+
+  CidrIpFromInternet:
+    Type: String
+    Description: CIDR IP range for allowing access from the internet
+    Default: 218.220.113.241/32
+
+Resources: 
+  
+  CfEc2TestSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: CfEc2TestSecurityGroup
+      GroupDescription: CfTestSecurityGroup
+      VpcId: 
+        !ImportValue VPC1
+      Tags:
+        - Key: Name
+          Value: CfEc2TestSecurityGroup
+
+  TsetSecurityGroupIgress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+      GroupId: !Ref CfEc2TestSecurityGroup
+      CidrIp: !Ref CidrIpFromInternet
+  EC2SGIngressHttp:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref CfEc2TestSecurityGroup
+      IpProtocol: tcp
+      FromPort: 80
+      ToPort: 80
+      CidrIp: 0.0.0.0/0  
+
+  CfRDSTestSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: CfRDSTestSecurityGroup
+      GroupDescription: CfRDSTestSecurityGroup
+      VpcId: 
+        !ImportValue VPC1
+      Tags:
+        - Key: Name
+          Value: CfRDSTestSecurityGroup
+
+  RDSSGIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref CfRDSTestSecurityGroup
+      IpProtocol: tcp
+      FromPort: 3306
+      ToPort: 3306
+      SourceSecurityGroupId: !Ref CfEc2TestSecurityGroup
+
+  TestNetWorkInterface:
+    Type: AWS::EC2::NetworkInterface
+    Properties:
+      SubnetId: 
+        !ImportValue pubsub1a
+      GroupSet: 
+        - !Ref CfEc2TestSecurityGroup
+
+  CfTestEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      KeyName: RaiesTech 
+      ImageId: !Ref OS
+      InstanceType: t2.micro
+      NetworkInterfaces:
+        - DeviceIndex: "0"
+          NetworkInterfaceId:
+            !Ref TestNetWorkInterface
+      DisableApiTermination: false
+      Monitoring: false
+
+      UserData: !Base64 |
+        #!/bin/bash -ex
+        # put your script here
+
+      Tags:
+        - Key: Name
+          Value: CfTestEC2Instance
+
+  TestALB:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Type: "application"
+      Scheme: "internet-facing"
+      Name: !Sub ${NameBase}-alb
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameBase}-alb
+      IpAddressType: ipv4
+      Subnets: 
+        - !ImportValue pubsub1a
+        - !ImportValue pubsub1c
+      SecurityGroups: 
+        - !Ref CfEc2TestSecurityGroup
+
+  CfTestTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub ${NameBase}-test-tg
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameBase}-test-tg
+      Port: 80
+      Protocol: HTTP
+      Matcher:
+        HttpCode: '200'
+      VpcId: !ImportValue VPC1
+      TargetType: instance
+      Targets:
+        - Id: !Ref CfTestEC2Instance 
+    
+  ListenerHTTP:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref CfTestTargetGroup
+      LoadBalancerArn: !Ref TestALB
+      Port: 80
+      Protocol: HTTP  
+
+  
+  TestRDSSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: "dedicated to ut-rds"
+      DBSubnetGroupName: TestRDSSubnetGroup
+      SubnetIds: 
+      - Fn::ImportValue: 
+         Fn::Sub: ${NameBase}-privateSubnet2a
+      - Fn::ImportValue:
+         Fn::Sub: ${NameBase}-privateSubnet2c
+      Tags: 
+      - 
+        Key: Name
+        Value: !Sub ${NameBase}dbsubnet
+
+  RDSInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBInstanceIdentifier: test-rds
+      DBInstanceClass: db.t3.micro
+      Engine: mysql
+      EngineVersion: 8.0.34
+      MasterUsername: admin
+      MasterUserPassword: dfdshkcdhak90
+      DBName: CFtestRDS
+      BackupRetentionPeriod: 0
+      MultiAZ: true
+      PubliclyAccessible: false
+      StorageType: gp2
+      AllocatedStorage: 20
+      StorageEncrypted: true
+      CopyTagsToSnapshot: false
+      DeleteAutomatedBackups: true
+      DBSubnetGroupName: !Ref TestRDSSubnetGroup
+      VPCSecurityGroups: 
+      - !Ref CfRDSTestSecurityGroup
+      Tags: 
+      - 
+        Key: Name
+        Value: !Sub ${NameBase}-RDS
