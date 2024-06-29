@@ -30,18 +30,18 @@ Resources:
        MapPublicIpOnLaunch: true
        Tags:
          - Key: Name
-           Value: !Sub Subnet-Public1-${NameBase}
+           Value: !Sub Subnet-Public1a-${NameBase}
         
    pubsub1c:
       Type: AWS::EC2::Subnet
       Properties:
-        AvailabilityZone: !Select [0, !GetAZs '']
+        AvailabilityZone: !Select [1, !GetAZs '']
         VpcId: !Ref VPC1
         CidrBlock: 10.0.2.0/24
         MapPublicIpOnLaunch: true
         Tags:
           - Key: Name
-            Value: !Sub Subnet-Public2-${NameBase}
+            Value: !Sub Subnet-Public2c-${NameBase}
 
    privateSubnet2a:
      Type: AWS::EC2::Subnet
@@ -52,19 +52,19 @@ Resources:
        MapPublicIpOnLaunch: false
        Tags:
          - Key: Name
-           Value: !Sub Subnet-private1-${NameBase}
+           Value: !Sub Subnet-private1a-${NameBase}
 
    privateSubnet2c:
      Type: AWS::EC2::Subnet
      Properties:
-       AvailabilityZone: !Select [0, !GetAZs '']
+       AvailabilityZone: !Select [1, !GetAZs '']
        VpcId: !Ref VPC1
        CidrBlock: 10.0.4.0/24
        MapPublicIpOnLaunch: false
        Tags:
          - Key: Name
-           Value: !Sub Subnet-private2-${NameBase}        
-
+           Value: !Sub Subnet-private2c-${NameBase}        
+# インターネットゲートウェイ
    TestInternetGatway:
      Type: AWS::EC2::InternetGateway
      Properties:
@@ -143,9 +143,10 @@ Outputs:
   privateSubnet2a:    
     Value: !Ref privateSubnet2a
     Export:
-      Name: !Sub ${NameBase}-privateSubnet2a
+      Name: !Sub ${NameBase}-privateSubnet2a  
 
   privateSubnet2c: 
    Value: !Ref privateSubnet2c
    Export:
      Name: !Sub ${NameBase}-privateSubnet2c
+     
