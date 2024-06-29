@@ -13,10 +13,14 @@ Resources:
   lecture13appbucket:
     Type: AWS::S3::Bucket
     Properties: 
-      AccessControl: Private
+      PublicAccessBlockConfiguration: 
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
       BucketName: lecture13-app-bucket
       VersioningConfiguration: 
-        Status: Enabled 
+        Status: Suspended
       Tags:
         - Key: Name
           Value: !Sub ${NameBase}-lecture13appbucket
