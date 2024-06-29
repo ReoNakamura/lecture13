@@ -1,0 +1,25 @@
+Resources: 
+# s3バケット
+  lecture13appbucket:
+    Type: AWS::S3::Bucket
+    Properties: 
+      AccessControl: Private
+      BucketName: lecture13-app-bucket
+      VersioningConfiguration: 
+        Status: Enabled 
+      Tags:
+        - Key: Name
+          Value: !Sub ${NameBase}-lecture13appbucket
+# バケットポリシー
+  s3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref lecture13appbucket
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action: "s3:*"
+            Resource: !Sub "arn:aws:s3:::lecture13-app-bucket/*"
+            Principal:
+              AWS: !ImportValue EC2RoleArn
