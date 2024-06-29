@@ -13,7 +13,7 @@ Resources:
   lecture13appbucket:
     Type: AWS::S3::Bucket
     Properties: 
-      BucketPolicy: Private
+      AccessControl: Private
       BucketName: lecture13-app-bucket
       VersioningConfiguration: 
         Status: Enabled 
@@ -30,6 +30,6 @@ Resources:
         Statement:
           - Effect: "Allow"
             Action: "s3:*"
-            Resource: !Sub "arn:aws:s3:::lecture13-app-bucket/*"
+            Resource: "arn:aws:s3:::lecture13-app-bucket/*"
             Principal:
               AWS: !ImportValue EC2RoleArn
