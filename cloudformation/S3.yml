@@ -1,9 +1,19 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: ---
+
+
+Parameters: 
+  NameBase:
+    Description: this is base name.
+    Type: String
+    Default:  RaiseTech
+
 Resources: 
 # s3バケット
   lecture13appbucket:
     Type: AWS::S3::Bucket
     Properties: 
-      AccessControl: Private
+      BucketPolicy: Private
       BucketName: lecture13-app-bucket
       VersioningConfiguration: 
         Status: Enabled 
