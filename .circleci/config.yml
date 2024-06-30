@@ -27,8 +27,8 @@ jobs:
           command: |
             set -x 
             aws cloudformation deploy --template-file cloudformation/VPC.yml --stack-name circleci-test-VPC
-            aws cloudfoemation deploy --template-file cloudformation/EC2-RDS.yml --stack-name circleci-test-EC2-RDS --capabilities CAPABILITY_NAMED_IAM
-            aws cloudfoemation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
+            aws cloudformation deploy --template-file cloudformation/EC2-RDS.yml --stack-name circleci-test-EC2-RDS --capabilities CAPABILITY_NAMED_IAM
+            aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
 workflows:
   raisetech:
     jobs:
