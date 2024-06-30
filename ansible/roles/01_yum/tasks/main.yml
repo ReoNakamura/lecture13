@@ -1,13 +1,13 @@
 ---
 # yum file for rolse
 - name: yum update all package
-  become: yes
+  become: true
   ansible.builtin.yum:
    name: '*'
    state: latest
 
 - name: yum install package
-  become: yes
+  become: true
   ansible.builtin.yum:
     name: "{{ packages }}"
     state: present
