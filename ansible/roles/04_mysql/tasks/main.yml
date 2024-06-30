@@ -1,0 +1,47 @@
+--- 
+- name: yum update all package
+  become: true
+  ansible.builtin.yum:
+   name: '*'
+   state: latest
+
+
+- name: uninstall MariaDB
+  become: true
+  yum: 
+    name: mariadb*
+    state: absent
+
+- name: Install RPM-GPG-KEY-mysql
+  become: true
+  rpm_key:
+    state: present
+    key: https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+  ignore_errors: true
+
+- name: install myaql repository
+  become: true
+  yum:
+    name: "https://repo.mysql.com//mysql84-community-release-el7-1.noarch.rpm"
+    state: present
+
+- name: install mysql packges
+  become: true
+  yum:
+    name:
+      - mysql-community-devel 
+      - mysql-community-server
+    state: present
+
+- name: Start MySQL service
+  become: true
+  systemd:
+    name: mysqld
+    state: started
+
+- name: add database.yml.j2
+  become: true
+  template:
+    src: database.yml.j2
+    dest: "{{ app_dir }}/config/database.yml"
+

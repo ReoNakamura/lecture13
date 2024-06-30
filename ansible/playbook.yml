@@ -1,0 +1,17 @@
+---
+- hosts: 43.206.68.134
+  remote_user: ec2-user
+  
+  vars:
+    ansible_become_method: sudo
+    app_dir: /home/ec2-user/raisetech-live8-sample-app
+    MasterUserPassword: "{{ lookup('env','MasterUserPassword') }}"
+    EndpointAddress: "{{ lookup('env','Endpoint.Address') }}"
+
+  roles:
+    - { role: 01_yum }
+    - { role: 02_ruby }
+    - { role: 03_node.js }
+    - { role: 04_mysql }
+    - { role: 05_deploy }
+

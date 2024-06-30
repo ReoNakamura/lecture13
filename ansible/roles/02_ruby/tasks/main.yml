@@ -1,0 +1,123 @@
+---
+# ruby setup fo roles
+- name: Check if git is installed
+  command: which git
+  register: git_location
+  changed_when: false
+  ignore_errors: true
+
+- name: Check rbenv
+  shell: bash -lc "rbenv --version"
+  register: rbenv_exists
+  changed_when: False
+  ignore_errors: true
+
+- name: Clone the Git sampleapp_repository
+  ansible.builtin.git:
+    repo: 'https://github.com/yuta-ushijima/raisetech-live8-sample-app.git'
+    dest: "/home/{{ ansible_user }}/raisetech-live8-sample-app"
+    #version: 'main'
+
+# rbenvのインストール
+- name: rbenv clone
+  become_user: "{{ ansible_user }}"
+  git:
+    repo: https://github.com/sstephenson/rbenv.git
+    dest: /home/ec2-user/.rbenv
+  when: rbenv_exists is failed
+
+- name: Change ownership to ec2-user
+  file:
+    path: "/home/ec2-user/.rbenv"
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    state: directory
+    recurse: true
+  become: true
+  when: rbenv_exists is failed
+
+- name: ruby-build install
+  git:
+    repo: https://github.com/sstephenson/ruby-build.git
+    dest: /home/ec2-user/.rbenv/plugins/ruby-build
+  when: rbenv_exists is failed
+
+# パスを通す
+
+
+- name: add rbenv/bin path
+  lineinfile: 
+    path: /home/ec2-user/.bash_profile
+    line: 'export PATH="$HOME/.rbenv/bin:$PATH"'
+    create: yes
+  when: rbenv_exists is failed
+
+
+- name: set .rbenv path
+  lineinfile: 
+    path: /home/ec2-user/.bash_profile
+    line: 'eval "$(rbenv init -)"'
+    create: yes
+  when: rbenv_exists is failed
+
+
+- name: update .bash_profile
+  shell: bash -lc "source /home/ec2-user/.bash_profile"
+  when: rbenv_exists is failed
+
+- name: Initialize rbenv
+  shell: eval "$(rbenv init -)"
+  when: rbenv_exists is failed
+  
+# rubyのインストール
+
+- name: ruby 3.2.3 installed check
+  shell: bash -lc "rbenv versions | grep {{ ruby_version }}"
+  register: ruby_check
+  changed_when: no
+  ignore_errors: true
+
+- name: ruby install
+  shell: bash -lc "rbenv install {{ ruby_version }}"
+  when: ruby_check is failed
+
+- name: rbenv rehash
+  shell: bash -lc "rbenv rehash"
+  when: ruby_check is failed
+
+
+- name: changed ruby 3.2.3
+  shell: bash -lc "rbenv global {{ ruby_version }}"
+  when: ruby_check is failed
+  ignore_errors: true
+
+#installed bundler
+- name: installed check bundler {{ bundler_version }}
+  shell: |
+    "bundler --version | grep {{ bundler_version }}"
+  args:
+    chdir: "{{ app_dir }}"
+  ignore_errors: true
+
+  
+# bundler install 
+- name: Install bundler {{ bundler_version }}
+  gem: 
+    name: bundler
+    version: "{{ bundler_version }}"
+    executable: /home/ec2-user/.rbenv/shims/gem
+    user_install: no
+    state: present
+  environment:
+    RBENV_VERSION: "{{ ruby_version }}"
+    
+- name: rails install
+  gem:
+    name: rails
+    version: "{{ rails_version }}"
+    executable: /home/ec2-user/.rbenv/shims/gem
+    state: present
+  
+
+
+

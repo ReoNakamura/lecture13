@@ -1,0 +1,38 @@
+---
+# yum file for rolse
+- name: yum update all package
+  become: true
+  ansible.builtin.yum:
+   name: '*'
+   state: latest
+
+- name: yum install package
+  become: true
+  ansible.builtin.yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - gcc-c++
+      - openssl-devel
+      - libyaml-devel
+      - readline
+      - readline-devel
+      - zlib
+      - zlib-devel
+      - libffi-devel
+      - libxml2 
+      - libxslt 
+      - libxml2-devel 
+      - libxslt-devel 
+      - sqlite-devel
+
+    
+
+- name: Install git
+  become: yes
+  yum:
+    name: git
+    state: present  # 入ってる状態にする
+    lock_timeout: 60
+    
