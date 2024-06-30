@@ -102,7 +102,7 @@ Resources:
   CfTestEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      KeyName: RaiesTech 
+      KeyName: lecture13 
       ImageId: !Ref OS
       InstanceType: t2.micro
       IamInstanceProfile: !Ref iamInstanceProfile
