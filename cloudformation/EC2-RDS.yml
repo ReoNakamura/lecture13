@@ -39,7 +39,7 @@ Resources:
       FromPort: 22
       ToPort: 22
       GroupId: !Ref CfEc2TestSecurityGroup
-      CidrIp: !Ref CidrIpFromInternet
+      CidrIp: 0.0.0.0/0
   EC2SGIngressHttp:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
