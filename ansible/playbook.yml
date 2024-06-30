@@ -7,6 +7,7 @@
     app_dir: /home/ec2-user/raisetech-live8-sample-app
     MasterUserPassword: "{{ lookup('env','MasterUserPassword') }}"
     EndpointAddress: "{{ lookup('env','Endpoint.Address') }}"
+    ALBEndpoint: "{{ lookup('env','TestALB.DNSName') }}"
 
   roles:
     - { role: 01_yum }
