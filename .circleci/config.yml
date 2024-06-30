@@ -3,6 +3,7 @@ orbs:
   python: circleci/python@2.0.3
   aws-cli: circleci/aws-cli@4.1.3
   aws-cloudformation: orbss/aws-cloudformation@0.1.6
+  ansible-playbook: orbss/ansible-playbook@0.0.5
 jobs:
   cfn-lint:
     executor: python/default
@@ -29,8 +30,23 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/VPC.yml --stack-name circleci-test-VPC
             aws cloudformation deploy --template-file cloudformation/EC2-RDS.yml --stack-name circleci-test-EC2-RDS --capabilities CAPABILITY_NAMED_IAM
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
+  execute-ansible:
+    executor: ansible-playbook/default
+    stepd:
+      - checkout
+      - add_ssh_keys: 
+          fingerprints:
+            -
+      - ansible-playbook/install:
+          version: 2.16.6
+      - ansible-playbook/playbook:
+          playbook: ansible/playbook
+          playbook-options: -u ec2-user -i ansible/inventory --private-key  ~/AWS-access/lecture13.pem
 workflows:
   raisetech:
     jobs:
       - cfn-lint
       - execute-cloudformation
+      - execute-ansible:
+          requires:
+            - execute-cloudformation
