@@ -32,16 +32,16 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
   execute-ansible:
     executor: ansible-playbook/default
-    stepd:
+    steps:
       - checkout
       - add_ssh_keys: 
           fingerprints:
-            -
+            - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
       - ansible-playbook/install:
           version: 2.16.6
       - ansible-playbook/playbook:
           playbook: ansible/playbook
-          playbook-options: -u ec2-user -i ansible/inventory --private-key  ~/AWS-access/lecture13.pem
+          playbook-options: '-u ec2-user -i ansible/inventory --private-key  ~/AWS-access/lecture13.pem'
 workflows:
   raisetech:
     jobs:
