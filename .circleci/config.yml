@@ -11,9 +11,7 @@ jobs:
       tag: "3.12"
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          packages: cfn-lint
+      - run: pip install cfn-lint
       - run:
           name: run cfn-lint
           command: |
