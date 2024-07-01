@@ -6,8 +6,9 @@ orbs:
   ansible-playbook: orbss/ansible-playbook@0.0.5
 jobs:
   cfn-lint:
-    executor: python/default
-    tag: "3.12"
+    executor: 
+      name: python/default
+      tag: "3.12"
     steps:
       - checkout
       - python/install-packages:
