@@ -1,5 +1,5 @@
 ---
-- hosts: 43.206.68.134
+- hosts: all
   remote_user: ec2-user
   
   vars:
