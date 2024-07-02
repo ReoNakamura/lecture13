@@ -13,8 +13,7 @@ executors:
   
 jobs:
   cfn-lint:
-    executor: 
-      name: python/defaults
+    executor: python/default
     steps:
       - checkout
       - run: pip install cfn-lint
