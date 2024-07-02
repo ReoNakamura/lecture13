@@ -4,11 +4,17 @@ orbs:
   aws-cli: circleci/aws-cli@4.1.3
   aws-cloudformation: orbss/aws-cloudformation@0.1.6
   ansible-playbook: orbss/ansible-playbook@0.0.5
+
+executors: 
+  python-executor:
+    docker:
+      - image: circleci/python:3.12
+    working_directory: ~/repo
+  
 jobs:
   cfn-lint:
     executor: 
-      name: python/default
-      tag: "3.12"
+      name: python/defaults
     steps:
       - checkout
       - run: pip install cfn-lint
