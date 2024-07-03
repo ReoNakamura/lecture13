@@ -24,9 +24,8 @@
 - name: source ~/.nvm/nvm.sh
   become: true
   copy:
-    src: /lecture13/ansible/roles/03_node.js/templates/nvm.sh
+    src: roles/03_node.js/templates/nvm.sh
     dest: /etc/profile.d
-    remote_src: ture
   when: node_check is failed
 
 - name: Add NVM source lines to .bash_profile
