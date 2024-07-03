@@ -48,7 +48,7 @@ jobs:
           fingerprints:
             - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
       - ansible-playbook/install:
-          version: 2.14.0
+          version: 2.13.0
       - ansible-playbook/playbook:
           playbook: ansible/playbook
           playbook-options: '-u ec2-user -i ansible/inventory --private-key  ~/AWS-access/lecture13.pem'
