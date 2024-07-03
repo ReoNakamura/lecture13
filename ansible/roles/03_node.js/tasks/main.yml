@@ -24,7 +24,7 @@
 - name: source ~/.nvm/nvm.sh
   become: true
   copy:
-    src: ~/ansible_playground/roles/03_node.js/templates/nvm.sh
+    src: ~/ansible/roles/03_node.js/templates/nvm.sh
     dest: /etc/profile.d
   when: node_check is failed
 
