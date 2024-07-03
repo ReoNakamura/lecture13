@@ -68,6 +68,7 @@
   shell: nginx -version 
   register: nginx_check
   changed_when: false
+  ignore_errors: true
 
 - name: Enable nginx1 repository
   become: true
