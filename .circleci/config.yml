@@ -43,7 +43,7 @@ jobs:
       - checkout
       - run:
           name: python -m pip install --upgrade pip
-          command: python -m pip install --upgrade pip
+          command: /usr/local/bin/python -m pip install --upgrade pip
       - add_ssh_keys: 
           fingerprints:
             - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
