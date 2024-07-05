@@ -1,13 +1,13 @@
 ---
 - hosts: all
-  remote_user: ec2-user
+  remote_user: ec2-user  
   
   vars:
     ansible_become_method: sudo
     app_dir: /home/ec2-user/raisetech-live8-sample-app
-    MasterUserPassword: "{{ lookup('env','MasterUserPassword') }}"
-    EndpointAddress: "{{ lookup('env','Endpoint.Address') }}"
-    ALBEndpoint: "{{ lookup('env','TestALB.DNSName') }}"
+    MasterUserPassword: "{{ lookup('env','MASTERUSERPASSWORD') }}"
+    EndpointAddress: "{{ lookup('env','ENdPOINT.ADDRESS') }}"
+    ALB_DNS: "{{ lookup('env','ALB.DNS') }}"
 
   roles:
     - { role: 01_yum }
