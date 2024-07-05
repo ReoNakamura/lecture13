@@ -16,7 +16,7 @@
   ansible.builtin.git:
     repo: 'https://github.com/yuta-ushijima/raisetech-live8-sample-app.git'
     dest: "/home/{{ ansible_user }}/raisetech-live8-sample-app"
-    #version: 'main'
+    version: 'main'
 
 # rbenvのインストール
 - name: rbenv clone
