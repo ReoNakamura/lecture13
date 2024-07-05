@@ -31,6 +31,7 @@
     name:
       - mysql-community-devel 
       - mysql-community-server
+      - mysql-community-client
     state: present
 
 - name: Start MySQL service
