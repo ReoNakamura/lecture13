@@ -5,17 +5,16 @@ orbs:
   aws-cloudformation: orbss/aws-cloudformation@0.1.6
   ansible-playbook: orbss/ansible-playbook@0.0.5
 
-executors: 
-  python-executor:
-    docker:
-      - image: circleci/python:3.11
-    working_directory: ~/repo
+
+    
   
 jobs:
   cfn-lint:
-    executor: python/default
+    docker:
+      - image: circleci/python:3.11.0
     steps:
       - checkout
+      - run: python --version
       - run: pip install cfn-lint
       - run:
           name: run cfn-lint
