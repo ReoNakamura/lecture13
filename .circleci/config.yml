@@ -53,7 +53,7 @@ jobs:
       - run:
           name: Install community.mysql collection
           command: |
-            ansible-galaxy collection install community.mysql || ansible-galaxy collection install community.mysql
+            ansible-galaxy collection install community.mysql -vvv
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: '-u ec2-user -i ansible/inventory --private-key  ~/AWS-access/lecture13.pem'
@@ -65,3 +65,4 @@ workflows:
       - execute-ansible:
           requires:
             - execute-cloudformation
+
