@@ -26,6 +26,8 @@
       - libxml2-devel 
       - libxslt-devel 
       - sqlite-devel
+      - ImageMagick
+      - ImageMagick-devel
 
     
 

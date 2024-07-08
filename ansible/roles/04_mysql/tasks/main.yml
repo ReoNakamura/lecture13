@@ -35,14 +35,48 @@
     state: present
 
 - name: Start MySQL service
-  become: true
-  systemd:
+  become_user: root
+  service:
     name: mysqld
     state: started
+# CLIでエンドポイントを出力をだしてansibleで変数として設定する
+- name: Get CloudFormation output value for RDS endpoint
+  command: >
+    aws cloudformation describe-stacks
+    --stack-name EC2-RDS
+    --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue"
+    --output text
+  register: cf_output
+
+- name: Set the RDS endpoint as a fact
+  set_fact:
+    EndpointAddress: "{{ cf_output.stdout }}"
+
+- name: Use the RDS instance endpoint
+  debug:
+    msg: "RDS instance endpoint is {{ EndpointAddress }}"
+
+- name: use mysql_native_password
+  community.mysql.mysql_user:
+    name: admin
+    host: "%"
+    password: "{{ MasterUserPassword }}"
+    login_user: admin
+    login_password: "{{ MasterUserPassword }}"
+    login_host: "{{ EndpointAddress }}"
+    priv: '*.*:ALL,GRANT'
+    state: present
+    plugin: mysql_native_password
 
 - name: add database.yml.j2
   become: true
   template:
     src: database.yml.j2
     dest: "{{ app_dir }}/config/database.yml"
+
+- name: Start MySQL service
+  become_user: root
+  service:
+    name: mysqld
+    state: restarted
 
