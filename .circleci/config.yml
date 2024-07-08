@@ -5,8 +5,9 @@ orbs:
   aws-cloudformation: orbss/aws-cloudformation@0.1.6
   ansible-playbook: orbss/ansible-playbook@0.0.5
 
-
-    
+deploy:
+    docker:
+      - image: cimg/python:3.11.0
   
 jobs:
   cfn-lint:
