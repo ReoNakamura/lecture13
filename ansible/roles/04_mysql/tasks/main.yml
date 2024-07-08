@@ -36,9 +36,10 @@
 
 - name: Start MySQL service
   become: true
-  systemd:
-    name: mysqld
+  service:
+    name: mysql
     state: started
+  ignore_errors: true
 # CLIでエンドポイントを出力をだしてansibleで変数として設定する
 - name: Get CloudFormation output value for RDS endpoint
   command: >
