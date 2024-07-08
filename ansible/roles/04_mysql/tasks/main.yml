@@ -35,8 +35,7 @@
     state: present
 
 - name: Start MySQL service
-  become_user: root
-  service:
+  systemd:
     name: mysqld
     state: started
 # CLIでエンドポイントを出力をだしてansibleで変数として設定する
@@ -76,7 +75,7 @@
 
 - name: Start MySQL service
   become_user: root
-  service:
+  systemd:
     name: mysqld
     state: restarted
 
