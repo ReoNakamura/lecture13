@@ -40,8 +40,8 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
   execute-ansible:
     executor: ansible-playbook/default
-    docker:
-      - image: cimg/python:2.7
+    #docker:
+      #- image: cimg/python:2.7
     steps:
       - checkout
       - run:
