@@ -4,9 +4,7 @@ orbs:
   aws-cloudformation: orbss/aws-cloudformation@0.1.6
   ansible-playbook: orbss/ansible-playbook@0.0.5
 
-deploy:
-    docker:
-      - image: cimg/python:3.11.0
+
   
 jobs:
   cfn-lint:
@@ -40,8 +38,8 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
   execute-ansible:
     executor: ansible-playbook/default
-    #docker:
-      #- image: cimg/python:2.7
+    docker:
+      - image: cimg/python:3.10
     steps:
       - checkout
       - run:
@@ -52,7 +50,7 @@ jobs:
             - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
       - run: 
           name: install ansible
-          command: pip install ansible==2.10.7
+          command: pip install ansible==2.13
       - run:
           name: Install community.mysql collection
           command: |
