@@ -41,7 +41,7 @@ jobs:
   execute-ansible:
     executor: ansible-playbook/default
     docker:
-      - image: cimg/python:2.7.0
+      - image: cimg/python:2.7
     steps:
       - checkout
       - run:
