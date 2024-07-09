@@ -32,7 +32,7 @@
     
 
 - name: Install git
-  become: yes
+  become: true
   yum:
     name: git
     state: present  # 入ってる状態にする
