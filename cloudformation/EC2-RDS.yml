@@ -93,6 +93,15 @@ Resources:
               - Effect: "Allow"
                 Action: "s3:*"
                 Resource: "*"
+      
+        - PolicyName: MyPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                Resource: "*"
   #ec2インスタンス
   CfTestEC2Instance:
     Type: AWS::EC2::Instance
