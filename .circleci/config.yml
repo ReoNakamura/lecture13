@@ -50,8 +50,9 @@ jobs:
       - add_ssh_keys: 
           fingerprints:
             - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
-      - ansible-playbook/install:
-          version: 2.10.7
+      - run: 
+          name: install ansible
+          command: pip install ansible==2.10.7
       - run:
           name: Install community.mysql collection
           command: |
