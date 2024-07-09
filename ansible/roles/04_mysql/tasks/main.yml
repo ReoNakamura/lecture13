@@ -46,7 +46,8 @@
     aws cloudformation describe-stacks
     --stack-name EC2-RDS
     --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue"
-    --output text
+    --output text 
+    --region ap-northeast-1
   register: cf_output
 
 - name: Set the RDS endpoint as a fact
