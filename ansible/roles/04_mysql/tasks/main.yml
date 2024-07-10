@@ -5,7 +5,15 @@
    name: '*'
    state: latest
 
+- name: Install pip (RHEL/CentOS)
+  yum:
+    name: python-pip
+    state: present
 
+- name: Install PyMySQL
+  pip:
+    name: PyMySQL
+    state: present
 - name: uninstall MariaDB
   become: true
   yum: 
