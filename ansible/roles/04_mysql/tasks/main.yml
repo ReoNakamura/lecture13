@@ -5,12 +5,14 @@
    name: '*'
    state: latest
 
-- name: Install pip (RHEL/CentOS)
+- name: Install pip 
+  become: true
   yum:
     name: python-pip
     state: present
 
 - name: Install PyMySQL
+  become: true
   pip:
     name: PyMySQL
     state: present
