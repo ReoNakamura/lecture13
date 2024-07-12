@@ -42,7 +42,7 @@ jobs:
           command: |
             # Define variables
             STACK_NAME="circleci-test-EC2-RDS"
-            SECRET_NAME="RDSSecret"
+            SECRET_NAME="MyRDSSecret"
             REGION="ap-northeast-1"
             # RDSのエンドポイントを環境変数に設定
             RDS_ENDPOINT=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue" --output text --region $REGION)
