@@ -233,11 +233,11 @@ Outputs:
     Export: 
       Name: !Sub ${NameBase}-CfTestEC2Instance
 
-  RDSInstance:
-    Description: "The name of the RDS"
-    Value: !Ref RDSInstance
+  RDSSecret:
+    Description: "RDS password"
+    Value: !Sub '{{resolve:secretsmanager:${RDSSecret}:SecretString:password}}'
     Export: 
-      Name: !Sub ${NameBase}-RDSInstance
+      Name: !Sub ${NameBase}-RDS-password
  
   RDSInstanceEndpoint:
     Description: "The connection endpoint"

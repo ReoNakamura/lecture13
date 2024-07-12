@@ -36,6 +36,28 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/VPC.yml --stack-name circleci-test-VPC
             aws cloudformation deploy --template-file cloudformation/EC2-RDS.yml --stack-name circleci-test-EC2-RDS --capabilities CAPABILITY_NAMED_IAM
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
+
+      - run:
+          name: 環境変数の設定
+          command: |
+            # Define variables
+            STACK_NAME="circleci-test-EC2-RDS"
+            SECRET_NAME="RDSSecret"
+            REGION="ap-northeast-1"
+            # RDSのエンドポイントを環境変数に設定
+            RDS_ENDPOINT=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue" --output text --region $REGION)
+            echo "export RDS_ENDPOINT=$RDS_ENDPOINT" >> $BASH_ENV
+
+            RDS_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --query "SecretString" --output text --region $REGION | jq -r '.password')
+            echo "export RDS_PASSWORD=$RDS_PASSWORD" >> $BASH_ENV
+
+      - run:
+          name: check environment variables
+          command: |
+            source $BASH_ENV
+            echo "RDS_ENDPOINT: $RDS_ENDPOINT"
+            echo "RDS_PASSWORD: $RDS_PASSWORD"
+
   execute-ansible:
     executor: ansible-playbook/default
     docker:
@@ -55,6 +77,12 @@ jobs:
           name: Install community.mysql collection
           command: |
             ansible-galaxy collection install community.mysql -vvv
+      - run:
+          name: Use Environment Variable
+          command: |
+            source $BASH_ENV
+            echo $RDS_ENDPOINT
+            echo $RDS_PASSWORD
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: '-u ec2-user -i ansible/inventory --private-key  ~/AWS-access/lecture13.pem'
