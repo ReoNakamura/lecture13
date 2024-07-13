@@ -41,7 +41,8 @@ jobs:
           name: 環境変数の設定
           command: |
             # Define variables
-            STACK_NAME="circleci-test-EC2-RDS"
+            # スタックの名前とシクレットマネージャーの名前を設定
+            STACK_NAME="circleci-test-EC2-RDS"  
             SECRET_NAME="MyRDSSecret"
             REGION="ap-northeast-1"
             # RDSのエンドポイントを環境変数に設定
