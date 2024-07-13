@@ -46,21 +46,22 @@ jobs:
             REGION="ap-northeast-1"
             # RDSのエンドポイントを環境変数に設定
             RDS_ENDPOINT=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue" --output text --region $REGION)
-            echo "export RDS_ENDPOINT=$(printf '%q' $RDS_ENDPOINT)" >> $BASH_ENV
+            #出力した変数を環境変数に設定
+            echo "export RDS_ENDPOINT=$(printf '%q' $RDS_ENDPOINT)" >> .env_var
 
             RDS_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --query "SecretString" --output text --region $REGION | jq -r '.password')
-            echo "export RDS_PASSWORD=$(printf '%q' $RDS_PASSWORD)" >> $BASH_ENV
+            echo "export RDS_PASSWORD=$(printf '%q' $RDS_PASSWORD)" >> .env_var
 
       - run:
           name: check environment variables
           command: |
-            source $BASH_ENV
+            source .env_var
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
       - persist_to_workspace:
-          root: /
+          root: .
           paths:
-            - $BASH_ENV
+            - .env_var
   execute-ansible:
     executor: ansible-playbook/default
     docker:
@@ -68,7 +69,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /
+          at: .
       - run:
           name: python -m pip install --upgrade pip
           command: python -m pip install --force-reinstall --upgrade pip
@@ -85,7 +86,7 @@ jobs:
       - run:
           name: Use Environment Variable
           command: |
-            source $BASH_ENV
+            source .env_var
             echo $RDS_ENDPOINT
             echo $RDS_PASSWORD
       - ansible-playbook/playbook:
