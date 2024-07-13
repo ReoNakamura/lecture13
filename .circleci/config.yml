@@ -58,9 +58,9 @@ jobs:
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
       - persist_to_workspace:
-          root: .
+          root: /
           paths:
-            - BASH_ENV
+            - $BASH_ENV
   execute-ansible:
     executor: ansible-playbook/default
     docker:
@@ -68,7 +68,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: /
       - run:
           name: python -m pip install --upgrade pip
           command: python -m pip install --force-reinstall --upgrade pip
