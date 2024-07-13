@@ -79,6 +79,7 @@
     priv: '*.*:ALL,GRANT'
     state: present
     plugin: mysql_native_password
+  ignore_errors: true
 
 - name: add database.yml.j2
   become: true
