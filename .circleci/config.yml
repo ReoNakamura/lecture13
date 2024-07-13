@@ -57,13 +57,18 @@ jobs:
             source $BASH_ENV
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
-
+      - persist_to_workspace:
+          root: /tmp
+          paths:
+            - BASH_ENV
   execute-ansible:
     executor: ansible-playbook/default
     docker:
       - image: cimg/python:3.10
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp
       - run:
           name: python -m pip install --upgrade pip
           command: python -m pip install --force-reinstall --upgrade pip
