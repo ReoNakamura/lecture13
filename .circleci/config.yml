@@ -46,15 +46,15 @@ jobs:
             REGION="ap-northeast-1"
             # RDSのエンドポイントを環境変数に設定
             RDS_ENDPOINT=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue" --output text --region $REGION)
-            echo "export RDS_ENDPOINT=$(printf '%q' $RDS_ENDPOINT)" >> $BASH_ENV
+            echo "export RDS_ENDPOINT=$(printf '%q' $RDS_ENDPOINT)" >> $/tmp/BASH_ENV
 
             RDS_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --query "SecretString" --output text --region $REGION | jq -r '.password')
-            echo "export RDS_PASSWORD=$(printf '%q' $RDS_PASSWORD)" >> $BASH_ENV
+            echo "export RDS_PASSWORD=$(printf '%q' $RDS_PASSWORD)" >> $/tmp/BASH_ENV
 
       - run:
           name: check environment variables
           command: |
-            source $BASH_ENV
+            source $/tmp/BASH_ENV
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
       - persist_to_workspace:
