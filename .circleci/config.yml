@@ -93,7 +93,7 @@ jobs:
             source .env_var
             echo $RDS_ENDPOINT
             echo $RDS_PASSWORD
-            eche $EC2publicIP
+            echo $EC2publicIP
 
       - run:
           name: sed Environment Variable
