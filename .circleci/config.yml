@@ -92,7 +92,7 @@ jobs:
             echo $RDS_PASSWORD
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
-          playbook-options: '-u ec2-user -i ansible/inventory -e "MasterUserPassword=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
+          playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
 workflows:
   raisetech:
     jobs:
