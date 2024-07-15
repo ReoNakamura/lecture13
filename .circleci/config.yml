@@ -46,7 +46,7 @@ jobs:
             SECRET_NAME="MyRDSSecret"
             REGION="ap-northeast-1"
             EC2PublicIP=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='EC2PublicIP'].OutputValue" --output text --region $REGION)
-            echo "export EC2PublicIP=$(printf '%q' $EC2PublicIP)" >> .env_var
+            echo "export EC2PublicIP=$EC2PublicIP" >> .env_var
             # RDSのエンドポイントを環境変数に設定
             RDS_ENDPOINT=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='RDSInstanceEndpoint'].OutputValue" --output text --region $REGION)
             #出力した変数を環境変数に設定
@@ -96,9 +96,9 @@ jobs:
             echo $EC2PublicIP
 
       - run:
-          name: sed Environment Variable
+          name: Replacing environment variables in Sed
           command: |
-            sed -i "s/EC2PublicIP/${EC2PublicIP}/g" ansible/inventory
+            sed  "s/EC2PublicIP/${EC2PublicIP}/g" ansible/inventory
             cat ansible/inventory
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
