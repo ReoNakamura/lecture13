@@ -99,6 +99,7 @@ jobs:
           name: sed Environment Variable
           command: |
             sed -i  "s/EC2PublicIP/${EC2PublicIP}/g" ansible/inventory
+            cat ansible/inventory
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
