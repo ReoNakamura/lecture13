@@ -1,2 +1,6 @@
-[servver]
-54.168.164.51 ansible_user=ec2-user
+[servers]
+myserver ansible_host=EC2publicIP
+
+
+[servers:vars]
+ansible_user=ec2-user
