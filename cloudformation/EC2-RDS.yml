@@ -233,6 +233,12 @@ Outputs:
     Export: 
       Name: !Sub ${NameBase}-CfTestEC2Instance
 
+  
+  EC2PublicIP:
+    Value: !GetAtt EC2.PublicIp
+    Description: Public IP of EC2 instance
+    Export:
+      Name: EC2-IP
   RDSSecret:
     Description: "RDS password"
     Value: !Sub '{{resolve:secretsmanager:${RDSSecret}:SecretString:password}}'
