@@ -1,5 +1,5 @@
 [servers]
-myserver ansible_host=EC2publicIP
+myserver ansible_host=EC2PublicIP
 
 
 [servers:vars]

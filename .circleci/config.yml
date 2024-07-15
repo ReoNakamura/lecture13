@@ -59,7 +59,7 @@ jobs:
           name: check environment variables
           command: |
             source .env_var
-            echo "EC2publicIP: $EC2publicIP"
+            echo "EC2PublicIP: $EC2PublicIP"
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
       - persist_to_workspace:
@@ -93,12 +93,12 @@ jobs:
             source .env_var
             echo $RDS_ENDPOINT
             echo $RDS_PASSWORD
-            echo $EC2publicIP
+            echo $EC2PublicIP
 
       - run:
           name: sed Environment Variable
           command: |
-            sed -i  "s/EC2publicIP/${EC2publicIP}/g" ansible/inventory
+            sed -i  "s/EC2PublicIP/${EC2PublicIP}/g" ansible/inventory
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
