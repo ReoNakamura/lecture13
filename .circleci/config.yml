@@ -102,6 +102,9 @@ jobs:
             echo $EC2PublicIP
             sed -i "s/EC2PublicIP/${EC2PublicIP}/g" ansible/inventory
             cat ansible/inventory
+            sed -i "s/RDS_ENDPOINT/${RDS_ENDPOINT}/g" ansible/playbook.yml
+            sed -i "s/RDS_PASSWORD/${RDS_PASSWORD}/g" ansible/playbook.yml
+            cat ansible/playbook.yml
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'

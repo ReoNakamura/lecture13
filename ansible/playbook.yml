@@ -5,8 +5,8 @@
   vars:
     ansible_become_method: sudo
     app_dir: /home/ec2-user/raisetech-live8-sample-app
-    MasterUserPassword: "{{ lookup('env','MasterUserPassword') }}"
-    EndpointAddress: "{{ lookup('env', 'RDS_ENDPOINT') }}"
+    MasterUserPassword: RDS_PASSWORD
+    EndpointAddress: RDS_ENDPOINT
     ALB_DNS: "{{ lookup('env','ALB.DNS') }}"
 
   roles:
