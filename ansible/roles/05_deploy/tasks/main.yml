@@ -81,6 +81,18 @@
   become: true
   debug:
     msg: "{{ nginx_install }}"
+   
+- name: development.rb copy 
+  become: true
+  template:
+    src: development.rb.j2
+    dest: "{{ app_dir }}/config/environments/development.rb"
+
+- name: nginx configfile fo copy 
+  become: true
+  copy:
+    src: roles/05_deploy/templates/05_deploy/templates/puma.conf.j2
+    dest: /etc/nginx/conf.d/
 
 - name: deploy environment setup
   shell: |
@@ -90,12 +102,13 @@
   ignore_errors: true
 
 
+
 - name: rails assets:precompile
   shell: |
     bash -lc "rails assets:precompile"
   args:
     chdir: "{{ app_dir }}"
-  
+  ignore_errors: true
   
 
 
