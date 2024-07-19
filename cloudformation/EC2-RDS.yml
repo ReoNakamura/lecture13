@@ -135,7 +135,7 @@ Resources:
     Properties:
       Type: "application"
       Scheme: "internet-facing"
-      Name: !Sub TestALB
+      Name: TestALB
       Tags:
         - Key: Name
           Value: !Sub ${NameBase}-alb
