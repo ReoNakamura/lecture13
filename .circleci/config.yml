@@ -54,7 +54,8 @@ jobs:
 
             RDS_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --query "SecretString" --output text --region $REGION | jq -r '.password')
             echo "export RDS_PASSWORD=$(printf '%q' $RDS_PASSWORD)" >> .env_var
-
+            DNS_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "stacks[0].Output[?Outputkey=='TestALB.DNSName'].OutputValue" --output text --region $REGION)
+            echo "export DNS_NAME=$DNS_NAME" >> .env_var
       - run:
           name: check environment variables
           command: |
@@ -62,6 +63,7 @@ jobs:
             echo "EC2PublicIP: $EC2PublicIP"
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
+            echo "DNS_NAME: $DNS_NAME"
       - persist_to_workspace:
           root: .
           paths:
@@ -94,7 +96,7 @@ jobs:
             echo $RDS_ENDPOINT
             echo $RDS_PASSWORD
             echo $EC2PublicIP
-
+            echo $DNS_NAME
       - run:
           name: Replacing environment variables in Sed
           command: |
@@ -104,6 +106,7 @@ jobs:
             cat ansible/inventory
             sed -i "s/RDS_ENDPOINT/${RDS_ENDPOINT}/g" ansible/playbook.yml
             sed -i "s/RDS_PASSWORD/${RDS_PASSWORD}/g" ansible/playbook.yml
+            sed -1 "s/DNS_NAME/${DNS_NAME}/g" ansible/playbook.yml
             cat ansible/playbook.yml
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
