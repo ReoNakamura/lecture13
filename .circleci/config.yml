@@ -106,7 +106,7 @@ jobs:
             cat ansible/inventory
             sed -i "s/RDS_ENDPOINT/${RDS_ENDPOINT}/g" ansible/playbook.yml
             sed -i "s/RDS_PASSWORD/${RDS_PASSWORD}/g" ansible/playbook.yml
-            sed -1 "s/DNS_NAME/${DNS_NAME}/g" ansible/playbook.yml
+            sed -i "s/DNS_NAME/${DNS_NAME}/g" ansible/playbook.yml
             cat ansible/playbook.yml
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
