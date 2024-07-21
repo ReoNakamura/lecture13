@@ -91,9 +91,9 @@
 - name: nginx configfile fo copy 
   become: true
   copy:
-    src: /roles/05_deploy/templates/puma.conf.j2
-    dest: /etc/nginx/conf.d/
-    remote_src: yes
+    src: ansible/roles/05_deploy/templates/puma.conf.j2
+    dest: /etc/nginx/conf.d/puma.conf
+    
 
 - name: deploy environment setup
   shell: |
