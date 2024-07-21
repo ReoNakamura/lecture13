@@ -42,7 +42,7 @@ Outputs:
 
   lecture13appbucket:
     Description: The name of the S3 bucket
-    Value: !Ref lecture13-app-bucket
+    Value: !Ref lecture13appbucket
     Export:
       Name: !Sub ${NameBase}-lecture13appbucket
   
