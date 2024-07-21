@@ -8,6 +8,7 @@
     MasterUserPassword: "RDS_PASSWORD"
     EndpointAddress: "RDS_ENDPOINT"
     ALB_DNS: "DNS_NAME"
+    S3_bucket_name: "S3_NAME"
 
   roles:
     - { role: 01_yum }

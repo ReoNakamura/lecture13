@@ -42,7 +42,8 @@ jobs:
           command: |
             # Define variables
             # スタックの名前とシクレットマネージャーの名前を設定
-            STACK_NAME="circleci-test-EC2-RDS"  
+            STACK_NAME="circleci-test-EC2-RDS" 
+            STACK_NAME2="circleci-test-S3"
             SECRET_NAME="MyRDSSecret"
             REGION="ap-northeast-1"
             EC2PublicIP=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='EC2PublicIP'].OutputValue" --output text --region $REGION)
@@ -54,8 +55,13 @@ jobs:
 
             RDS_PASSWORD=$(aws secretsmanager get-secret-value --secret-id $SECRET_NAME --query "SecretString" --output text --region $REGION | jq -r '.password')
             echo "export RDS_PASSWORD=$(printf '%q' $RDS_PASSWORD)" >> .env_var
+            # ロードバランサーのDNSを環境変数に出力して設定
             DNS_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='ALBEndpoint'].OutputValue" --output text --region $REGION)
             echo "export DNS_NAME=$DNS_NAME" >> .env_var
+            # S3を出力して環境変数に設定
+            S3_NAME=$(aws cloudformation describe-stacks --stack-name $STACK_NAME2 --query "Stacks[0].Outputs[?OutputKey=='lecture13appbucket'].OutputValue" --output text --region $REGION)
+            echo "export S3_NAME=$S3_NAME" >> .env_var
+
       - run:
           name: check environment variables
           command: |
@@ -64,6 +70,7 @@ jobs:
             echo "RDS_ENDPOINT: $RDS_ENDPOINT"
             echo "RDS_PASSWORD: $RDS_PASSWORD"
             echo "DNS_NAME: $DNS_NAME"
+            echo "S3_NAME: $S3_NAME"
       - persist_to_workspace:
           root: .
           paths:
@@ -97,6 +104,7 @@ jobs:
             echo $RDS_PASSWORD
             echo $EC2PublicIP
             echo $DNS_NAME
+            echo $S3_NAME
       - run:
           name: Replacing environment variables in Sed
           command: |
@@ -107,6 +115,7 @@ jobs:
             sed -i "s/RDS_ENDPOINT/${RDS_ENDPOINT}/g" ansible/playbook.yml
             sed -i "s/RDS_PASSWORD/${RDS_PASSWORD}/g" ansible/playbook.yml
             sed -i "s/DNS_NAME/${DNS_NAME}/g" ansible/playbook.yml
+            sed -i "s/S3_NAME/${S3_NAME}/g" ansible/playbook.yml
             cat ansible/playbook.yml
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml

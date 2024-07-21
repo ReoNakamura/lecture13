@@ -37,3 +37,12 @@ Resources:
             Resource: "arn:aws:s3:::lecture13-app-bucket/*"
             Principal:
               AWS: !ImportValue EC2RoleArn
+
+Outputs:
+
+  lecture13appbucket:
+    Description: The name of the S3 bucket
+    Value: !Ref lecture13-app-bucket
+    Export:
+      Name: !Sub ${NameBase}-lecture13appbucket
+  
