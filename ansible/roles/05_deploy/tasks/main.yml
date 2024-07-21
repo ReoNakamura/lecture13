@@ -94,11 +94,11 @@
     src: puma.conf.j2
     dest: /etc/nginx/conf.d/puma.conf
 
-- name: restart nginx
+- name: start nginx
   become: true
   service:
     name: nginx
-    state: restarted
+    state: started
     enabled: true
 
 - name: deploy environment setup
