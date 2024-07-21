@@ -90,10 +90,16 @@
 
 - name: nginx configfile fo copy 
   become: true
-  copy:
-    src: roles/05_deploy/templates/puma.conf.j2
+  template:
+    src: puma.conf.j2
     dest: /etc/nginx/conf.d/puma.conf
-    
+
+- name: restart nginx
+  become: true
+  service:
+    name: nginx
+    state: restarted
+    enabled: true
 
 - name: deploy environment setup
   shell: |
