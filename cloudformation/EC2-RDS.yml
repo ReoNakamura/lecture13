@@ -135,7 +135,7 @@ Resources:
     Properties:
       Type: "application"
       Scheme: "internet-facing"
-      Name: !Sub ${NameBase}-alb
+      Name: TestALB
       Tags:
         - Key: Name
           Value: !Sub ${NameBase}-alb
@@ -250,7 +250,7 @@ Outputs:
    
   ALBEndpoint:
     Description: "The DNS name of the ALB"
-    Value: !GetAtt RaiseTech-alb.DNSName
+    Value: !GetAtt TestALB.DNSName
     
 
   EC2RoleName:
