@@ -108,6 +108,11 @@
     state: started
     enabled: true
 
+- name: bundle install
+  shell: bash -lc bundle install
+  args:
+    chdir: "{{ app_dir}}"
+
 - name: deploy environment setup
   shell: |
     bash -lc "bin/setup"
