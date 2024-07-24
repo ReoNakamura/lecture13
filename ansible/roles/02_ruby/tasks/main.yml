@@ -113,6 +113,7 @@
     RBENV_VERSION: "{{ ruby_version }}"
     
 - name: rails install
+  become_user: "{{ ansible_user }}"
   gem:
     name: rails
     version: "{{ rails_version }}"
