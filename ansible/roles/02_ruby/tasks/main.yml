@@ -112,10 +112,9 @@
   environment:
     RBENV_VERSION: "{{ ruby_version }}"
 
-- name: Add Permission
-  shell: sudo chmod 755 /home/ec2-user/.rbenv/shims
     
 - name: rails install
+  become: true
   become_user: "{{ ansible_user }}"
   gem:
     name: rails
