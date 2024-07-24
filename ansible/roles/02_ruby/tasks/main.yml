@@ -116,9 +116,12 @@
   gem:
     name: rails
     version: "{{ rails_version }}"
-    executable: /home/ec2-user/.rbenv/shims/gem
+    executable: /home/ec2-user/.rbenv/shims/
     state: present
   
-
+- name: Rehash rbenv
+  shell: rbenv rehash
+  args:
+    executable: /bin/bash
 
 
