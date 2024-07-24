@@ -99,6 +99,12 @@
   template:
     src: nginx.conf.j2
     dest: /etc/nginx/nginx.conf
+
+- name: Add puma.service.sample
+  become: true
+  copy:
+    src: puma.service.sample
+    dest: /etc/systemd/system/puma.service
   
 
 - name: start nginx
