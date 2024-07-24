@@ -112,19 +112,16 @@
   environment:
     RBENV_VERSION: "{{ ruby_version }}"
 
-    
-- name: rails install
-  become: true
-  become_user: "{{ ansible_user }}"
-  gem:
-    name: rails
-    version: "{{ rails_version }}"
-    executable: /home/ec2-user/.rbenv/shims/
-    state: present
-  
-- name: Rehash rbenv
-  shell: rbenv rehash
+- name: installed check rails 
+  shell: |
+    "rails --version | grep {{ rails_version }}"
   args:
-    executable: /bin/bash
+    chdir: "{{ app_dir }}"
+  ignore_errors: true
+
+- name: gem install rails
+  shell: gem install rails
+  args:
+    chdir: "{{ app_dir }}"
 
 
