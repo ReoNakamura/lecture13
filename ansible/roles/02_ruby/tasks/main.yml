@@ -95,7 +95,7 @@
 #installed bundler
 - name: installed check bundler {{ bundler_version }}
   shell: |
-    "bundler --version | grep {{ bundler_version }}"
+    bash -lc "bundler --version | grep {{ bundler_version }}"
   args:
     chdir: "{{ app_dir }}"
   ignore_errors: true
@@ -114,13 +114,13 @@
 
 - name: installed check rails 
   shell: |
-    "rails --version | grep {{ rails_version }}"
+    bash -lc "rails --version | grep {{ rails_version }}"
   args:
     chdir: "{{ app_dir }}"
   ignore_errors: true
 
 - name: gem install rails
-  shell: gem install rails
+  shell: bash -lc gem install rails
   args:
     chdir: "{{ app_dir }}"
 
