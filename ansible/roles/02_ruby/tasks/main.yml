@@ -120,7 +120,7 @@
   ignore_errors: true
 
 - name: gem install rails
-  shell: bash -lc gem install rails
+  shell: bash -lc gem install rails -v "{{ rails_version }}"
   args:
     chdir: "{{ app_dir }}"
 
