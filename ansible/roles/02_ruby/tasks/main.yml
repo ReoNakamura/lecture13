@@ -112,16 +112,7 @@
   environment:
     RBENV_VERSION: "{{ ruby_version }}"
 
-- name: installed check rails 
-  shell: |
-    bash -lc "rails --version | grep {{ rails_version }}"
-  args:
-    chdir: "{{ app_dir }}"
-  ignore_errors: true
 
-- name: gem install rails
-  shell: bash -lc gem install rails -v "{{ rails_version }}"
-  args:
-    chdir: "{{ app_dir }}"
+
 
 

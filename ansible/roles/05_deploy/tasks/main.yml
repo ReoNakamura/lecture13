@@ -119,6 +119,11 @@
   args:
     chdir: "{{ app_dir}}"
 
+- name: gem install rails
+  shell: bash -lc gem install rails 
+  args:
+    chdir: "{{ app_dir }}"
+
 - name: deploy environment setup
   shell: |
     bash -lc "bin/setup"
