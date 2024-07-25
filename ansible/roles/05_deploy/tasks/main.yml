@@ -102,10 +102,10 @@
 
 - name: Add puma.service.sample
   become: true
-  copy:
+  template:
     src: puma.service.sample.j2
     dest: /etc/systemd/system/puma.service
-    remote_src: true
+    
   
 
 - name: start nginx
