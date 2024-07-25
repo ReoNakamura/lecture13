@@ -103,7 +103,7 @@
 - name: Add puma.service.sample
   become: true
   copy:
-    src: puma.service.sample
+    src: /roles/05_deploy/files/puma.service.sample
     dest: /etc/systemd/system/puma.service
   
 
