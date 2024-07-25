@@ -122,8 +122,8 @@
 
 - name: gem install rails
   shell: bash -lc gem install rails 
-  args:
-    chdir: "{{ app_dir }}"
+  environment:
+    PATH: "{{ ansible_env.PATH }}:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin"
 
 - name: deploy environment setup
   shell: |
