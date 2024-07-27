@@ -142,5 +142,7 @@
     chdir: "{{ app_dir }}"
   ignore_errors: true
   
-
-
+- name: puma service start 
+  shell: |
+    sudo systemctl start puma.service
+    
