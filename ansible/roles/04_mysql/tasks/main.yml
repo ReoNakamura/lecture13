@@ -42,6 +42,7 @@
       - mysql-community-devel 
       - mysql-community-server
       - mysql-community-client
+      - python3-pymysql
     state: present
 
 - name: Start MySQL service
