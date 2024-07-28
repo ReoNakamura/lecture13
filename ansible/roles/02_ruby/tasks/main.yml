@@ -18,6 +18,23 @@
     dest: "/home/{{ ansible_user }}/raisetech-live8-sample-app"
     #version: 'main'
     force: yes
+# アプリをデプロイするために必要なdirectoryを作成しておく
+- name: directory created
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - path: "/tmp/pids"
+      owner: "ec2-user"
+      group: "ec2-user"
+      mode: "775"
+    - path: "/tmp/sockets"
+      owner: "ec2-user"
+      group: "ec2-user"
+      mode: "775"
 
 # rbenvのインストール
 - name: rbenv clone
