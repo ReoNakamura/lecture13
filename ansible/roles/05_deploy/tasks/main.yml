@@ -106,7 +106,11 @@
     src: puma.service.sample.j2
     dest: /etc/systemd/system/puma.service
     
-  
+- name: "insert or replace hoge"
+  lineinfile:  
+    path: /home/ec2-user/raisetech-live8-sample-app/config/puma.rb
+    insertafter: '^directory "/var/www/rails/raisetech-live8-sample-app"$'
+    line: 'directory "/home/ec2-user/raisetech-live8-sample-app"'
 
 - name: start nginx
   become: true
@@ -145,4 +149,3 @@
 - name: puma service start 
   shell: |
     sudo systemctl start puma.service
-    
