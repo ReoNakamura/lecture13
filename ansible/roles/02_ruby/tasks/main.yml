@@ -27,11 +27,11 @@
     group: "{{ item.group }}"
     mode: "{{ item.mode }}"
   loop:
-    - path: "/tmp/pids"
+    - path: "{{ app_dir }}/tmp/pids"
       owner: "ec2-user"
       group: "ec2-user"
       mode: "775"
-    - path: "/tmp/sockets"
+    - path: "{{ app_dir }}/tmp/sockets"
       owner: "ec2-user"
       group: "ec2-user"
       mode: "775"
