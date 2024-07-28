@@ -50,6 +50,12 @@
     name: mysql
     state: started
   ignore_errors: true
+ 
+- name: add database.yml.j2
+  become: true
+  template:
+    src: database.yml.j2
+    dest: "{{ app_dir }}/config/database.yml"
 
 
 - name: use mysql_native_password
@@ -65,11 +71,7 @@
     plugin: mysql_native_password
   ignore_errors: true
 
-- name: add database.yml.j2
-  become: true
-  template:
-    src: database.yml.j2
-    dest: "{{ app_dir }}/config/database.yml"
+
 
 - name: Start MySQL service
   become: true
