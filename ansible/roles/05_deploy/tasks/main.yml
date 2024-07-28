@@ -110,7 +110,7 @@
   lineinfile:  
     path: /home/ec2-user/raisetech-live8-sample-app/config/puma.rb
     insertafter: '^# directory "/var/www/rails/raisetech-live8-sample-app"$'
-    line: 'directory "/home/ec2-user/raisetech-live8-sample-app"'
+    line: ' directory "/home/ec2-user/raisetech-live8-sample-app"'
 
 - name: start nginx
   become: true
