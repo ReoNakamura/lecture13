@@ -11,16 +11,23 @@
     name: python-pip
     state: present
 
-- name: Install PyMySQL
-  become: true
-  pip:
-    name: PyMySQL
-    state: present
 - name: uninstall MariaDB
   become: true
   yum: 
     name: mariadb*
     state: absent
+
+- name: Install PyMySQL
+  become: true
+  pip:
+    name: PyMySQL
+    state: present
+
+- name: Install pymysql using pip
+  become: true
+  pip:
+    name: pymysql
+    state: present
 
 - name: Install RPM-GPG-KEY-mysql
   become: true
@@ -42,7 +49,6 @@
       - mysql-community-devel 
       - mysql-community-server
       - mysql-community-client
-      - python3-pymysql
     state: present
 
 - name: Start MySQL service
