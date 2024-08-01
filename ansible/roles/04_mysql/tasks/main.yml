@@ -82,7 +82,8 @@
   mysql_query:
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
-    login_db: raisetech_live8_sample_app_development
+    login_db: CFtestRDS
+    login_host: "{{ EndpointAddress }}"
     query: "USE raisetech_live8_sample_app_development;"
 
 - name: Start MySQL service
