@@ -51,12 +51,6 @@
       - mysql-community-client
     state: present
 
-- name: Start MySQL service
-  become: true
-  systemd:
-    name: mysql
-    state: started
-  ignore_errors: true
  
 - name: add database.yml.j2
   become: true
@@ -64,6 +58,12 @@
     src: database.yml.j2
     dest: "{{ app_dir }}/config/database.yml"
 
+- name: Start MySQL service
+  become: true
+  systemd:
+    name: mysql
+    state: started
+  ignore_errors: true
 
 - name: use mysql_native_password
   community.mysql.mysql_user:
