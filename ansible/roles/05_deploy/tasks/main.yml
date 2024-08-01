@@ -137,7 +137,13 @@
     chdir: "{{ app_dir }}"
   ignore_errors: true
 
-
+- name: Execute a query ues database
+  mysql_query:
+    login_user: admin
+    login_password: "{{ MasterUserPassword }}"
+    login_db: CFtestRDS
+    login_host: "{{ EndpointAddress }}"
+    query: "USE raisetech_live8_sample_app_development;"
 
 - name: rails assets:precompile
   shell: |

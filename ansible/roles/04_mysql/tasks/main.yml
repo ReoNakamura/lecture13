@@ -1,11 +1,11 @@
---- 
+---
 - name: yum update all package
   become: true
   ansible.builtin.yum:
-   name: '*'
-   state: latest
+    name: "*"
+    state: latest
 
-- name: Install pip 
+- name: Install pip
   become: true
   yum:
     name: python-pip
@@ -13,7 +13,7 @@
 
 - name: uninstall MariaDB
   become: true
-  yum: 
+  yum:
     name: mariadb*
     state: absent
 
@@ -46,12 +46,11 @@
   become: true
   yum:
     name:
-      - mysql-community-devel 
+      - mysql-community-devel
       - mysql-community-server
       - mysql-community-client
     state: present
 
- 
 - name: add database.yml.j2
   become: true
   template:
@@ -73,22 +72,15 @@
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
     login_host: "{{ EndpointAddress }}"
-    priv: '*.*:ALL,GRANT'
+    priv: "*.*:ALL,GRANT"
     state: present
     plugin: mysql_native_password
   ignore_errors: true
 
-- name: Execute a query ues database
-  mysql_query:
-    login_user: admin
-    login_password: "{{ MasterUserPassword }}"
-    login_db: CFtestRDS
-    login_host: "{{ EndpointAddress }}"
-    query: "USE raisetech_live8_sample_app_development;"
+
 
 - name: Start MySQL service
   become: true
   systemd:
     name: mysqld
     state: restarted
-
