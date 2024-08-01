@@ -82,7 +82,7 @@
   mysql_query:
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
-    db: 
+    login_db: raisetech_live8_sample_app_development
     query: "USE raisetech_live8_sample_app_development;"
 
 - name: Start MySQL service
