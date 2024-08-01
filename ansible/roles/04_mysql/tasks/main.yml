@@ -78,7 +78,12 @@
     plugin: mysql_native_password
   ignore_errors: true
 
-
+- name: Execute a query ues database
+  mysql_query:
+    login_user: admin
+    login_password: "{{ MasterUserPassword }}"
+    db: 
+    query: "USE raisetech_live8_sample_app_development;"
 
 - name: Start MySQL service
   become: true
