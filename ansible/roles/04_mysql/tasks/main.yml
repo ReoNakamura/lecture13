@@ -61,7 +61,7 @@
 - name: Start MySQL service
   become: true
   systemd:
-    name: mysql
+    name: mysqld
     state: started
   ignore_errors: true
 
