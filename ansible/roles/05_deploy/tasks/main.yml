@@ -129,7 +129,12 @@
   environment:
     PATH: "{{ ansible_env.PATH }}:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin"
     RBENV_ROOT: "/home/ec2-user/.rbenv"
-    
+
+- name: db create and migeate
+  shell: |
+    bash -lc "rails db:create"
+    bash -lc "rails db:migrate"
+
 - name: deploy environment setup
   shell: |
     bash -lc "bin/setup"
