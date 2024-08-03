@@ -144,7 +144,12 @@
     login_db: raisetech_live8_sample_app_development
     login_host: "{{ EndpointAddress }}"
     query: "SELECT database();"
+  register: query_result
 
+- name: Show query result
+  debug:
+    var: query_result
+    
 - name: rails assets:precompile
   shell: |
     bash -lc "rails assets:precompile"
