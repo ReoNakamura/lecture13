@@ -155,6 +155,19 @@
   debug:
     var: query_result.query_result
 
+- name: Execute a sample query on the selected database
+  mysql_query:
+    login_user: admin
+    login_password: "{{ MasterUserPassword }}"
+    login_db: raisetech_live8_sample_app_development
+    login_host: "{{ EndpointAddress }}"
+    query: "SELECT * FROM raisetech_live8_sample_app_development LIMIT 5;" 
+  register: sample_query_result
+
+- name: Show sample query result
+  debug:
+    var: sample_query_result.query_result
+
 - name: rails assets:precompile
   shell: |
     bash -lc "rails assets:precompile"
