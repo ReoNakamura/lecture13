@@ -141,9 +141,9 @@
   mysql_query:
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
-    #login_db: CFtestRDS
+    login_db: raisetech_live8_sample_app_development
     login_host: "{{ EndpointAddress }}"
-    query: "USE raisetech_live8_sample_app_development;"
+    query: "SELECT database();"
 
 - name: rails assets:precompile
   shell: |
