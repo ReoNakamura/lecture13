@@ -148,13 +148,6 @@
     login_password: "{{ MasterUserPassword }}"
     login_db: raisetech_live8_sample_app_development
     login_host: "{{ EndpointAddress }}"
-    query: "USE raisetech_live8_sample_app_development;"
-
-- name: Show selected database
-  mysql_query:
-    login_user: admin
-    login_password: "{{ MasterUserPassword }}"
-    login_host: "{{ EndpointAddress }}"
     query: "SELECT database();"
   register: query_result
 
