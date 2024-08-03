@@ -136,20 +136,27 @@
   args:
     chdir: "{{ app_dir }}"
   ignore_errors: true
-
+# databaseを指定するクエリを行う
 - name: Execute a query ues database
   mysql_query:
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
     login_db: raisetech_live8_sample_app_development
     login_host: "{{ EndpointAddress }}"
+    query: "USE raisetech_live8_sample_app_development;"
+
+- name: Show selected database
+  mysql_query:
+    login_user: admin
+    login_password: "{{ MasterUserPassword }}"
+    login_host: "{{ EndpointAddress }}"
     query: "SELECT database();"
   register: query_result
 
 - name: Show query result
   debug:
-    var: query_result
-    
+    var: query_result.query_result
+
 - name: rails assets:precompile
   shell: |
     bash -lc "rails assets:precompile"
