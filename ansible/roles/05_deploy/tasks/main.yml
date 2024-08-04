@@ -159,7 +159,7 @@
   mysql_query:
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
-    login_db: raisetech_live8_sample_app_development
+    #login_db: raisetech_live8_sample_app_development
     login_host: "{{ EndpointAddress }}"
     query: "SELECT * FROM raisetech_live8_sample_app_development LIMIT 5;" 
   register: sample_query_result
