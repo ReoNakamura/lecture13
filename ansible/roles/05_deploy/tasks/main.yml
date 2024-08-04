@@ -130,10 +130,6 @@
     PATH: "{{ ansible_env.PATH }}:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin"
     RBENV_ROOT: "/home/ec2-user/.rbenv"
 
-- name: db create and migeate
-  shell: |
-    bash -lc "rails db:create"
-    bash -lc "rails db:migrate"
 
 - name: deploy environment setup
   shell: |
@@ -141,6 +137,14 @@
   args:
     chdir: "{{ app_dir }}"
   ignore_errors: true
+
+- name: rails assets:precompile
+  shell: |
+    bash -lc "rails assets:precompile"
+  args:
+    chdir: "{{ app_dir }}"
+  ignore_errors: true
+
 # databaseを指定するクエリを行う
 - name: Execute a query ues database
   mysql_query:
@@ -159,21 +163,20 @@
   mysql_query:
     login_user: admin
     login_password: "{{ MasterUserPassword }}"
-    #login_db: raisetech_live8_sample_app_development
+    login_db: raisetech_live8_sample_app_development
     login_host: "{{ EndpointAddress }}"
-    query: "SELECT * FROM raisetech_live8_sample_app_development LIMIT 5;" 
+    query: "SHOW TABLES;" 
   register: sample_query_result
 
 - name: Show sample query result
   debug:
     var: sample_query_result.query_result
 
-- name: rails assets:precompile
-  shell: |
-    bash -lc "rails assets:precompile"
-  args:
-    chdir: "{{ app_dir }}"
-  ignore_errors: true
+- name: start nginx
+  become: true
+  service:
+    name: nginx
+    state: restarted
   
 - name: puma service start 
   shell: |
