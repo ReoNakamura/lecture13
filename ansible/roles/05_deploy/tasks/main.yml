@@ -110,7 +110,7 @@
   template:
     src: storage.yml.j2
     dest: "{{ app_dir }}/config/storage.yml"
-
+# ファイルの指定した行に追記するtask、アプリのルートを正しく修正するため
 - name: "insert or replace directory path"
   lineinfile:  
     path: /home/ec2-user/raisetech-live8-sample-app/config/puma.rb
