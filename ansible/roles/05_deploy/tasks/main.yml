@@ -145,32 +145,7 @@
     chdir: "{{ app_dir }}"
   ignore_errors: true
 
-# databaseを指定するクエリを行う
-- name: Execute a query ues database
-  mysql_query:
-    login_user: admin
-    login_password: "{{ MasterUserPassword }}"
-    login_db: raisetech_live8_sample_app_development
-    login_host: "{{ EndpointAddress }}"
-    query: "SELECT database();"
-  register: query_result
 
-- name: Show query result
-  debug:
-    var: query_result.query_result
-
-- name: Execute a sample query on the selected database
-  mysql_query:
-    login_user: admin
-    login_password: "{{ MasterUserPassword }}"
-    login_db: raisetech_live8_sample_app_development
-    login_host: "{{ EndpointAddress }}"
-    query: "SHOW TABLES;" 
-  register: sample_query_result
-
-- name: Show sample query result
-  debug:
-    var: sample_query_result.query_result
 
 - name: start nginx
   become: true

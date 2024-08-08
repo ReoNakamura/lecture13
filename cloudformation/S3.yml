@@ -34,7 +34,9 @@ Resources:
         Statement:
           - Effect: "Allow"
             Action: "s3:*"
-            Resource: "arn:aws:s3:::lecture13-app-bucket/*"
+            Resource:
+              - "arn:aws:s3:::lecture13-app-bucket" 
+              - "arn:aws:s3:::lecture13-app-bucket/*"
             Principal:
               AWS: !ImportValue EC2RoleArn
 
