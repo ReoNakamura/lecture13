@@ -122,9 +122,11 @@ jobs:
           playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
 
   execute-serverspec:
-    executor: ruby/default       
+    docker:
+      - image: cimg/ruby:3.2.3        
     steps:
       - checkout
+      - run: ruby --version
       - run:
           name: serverspec setup 
           command: |
