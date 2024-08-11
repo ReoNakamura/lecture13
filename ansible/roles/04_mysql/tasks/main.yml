@@ -1,16 +1,33 @@
---- 
+---
 - name: yum update all package
   become: true
   ansible.builtin.yum:
-   name: '*'
-   state: latest
+    name: "*"
+    state: latest
 
+- name: Install pip
+  become: true
+  yum:
+    name: python-pip
+    state: present
 
 - name: uninstall MariaDB
   become: true
-  yum: 
+  yum:
     name: mariadb*
     state: absent
+
+- name: Install PyMySQL
+  become: true
+  pip:
+    name: PyMySQL
+    state: present
+
+- name: Install pymysql using pip
+  become: true
+  pip:
+    name: pymysql
+    state: present
 
 - name: Install RPM-GPG-KEY-mysql
   become: true
@@ -29,15 +46,10 @@
   become: true
   yum:
     name:
-      - mysql-community-devel 
+      - mysql-community-devel
       - mysql-community-server
+      - mysql-community-client
     state: present
-
-- name: Start MySQL service
-  become: true
-  systemd:
-    name: mysqld
-    state: started
 
 - name: add database.yml.j2
   become: true
@@ -45,3 +57,30 @@
     src: database.yml.j2
     dest: "{{ app_dir }}/config/database.yml"
 
+- name: Start MySQL service
+  become: true
+  systemd:
+    name: mysqld
+    state: started
+  ignore_errors: true
+
+- name: use mysql_native_password
+  community.mysql.mysql_user:
+    name: admin
+    host: "%"
+    password: "{{ MasterUserPassword }}"
+    login_user: admin
+    login_password: "{{ MasterUserPassword }}"
+    login_host: "{{ EndpointAddress }}"
+    priv: "*.*:ALL,GRANT"
+    state: present
+    plugin: mysql_native_password
+  ignore_errors: true
+
+
+
+- name: Start MySQL service
+  become: true
+  systemd:
+    name: mysqld
+    state: restarted

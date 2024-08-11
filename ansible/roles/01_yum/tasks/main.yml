@@ -26,11 +26,13 @@
       - libxml2-devel 
       - libxslt-devel 
       - sqlite-devel
+      - ImageMagick
+      - ImageMagick-devel
 
     
 
 - name: Install git
-  become: yes
+  become: true
   yum:
     name: git
     state: present  # 入ってる状態にする

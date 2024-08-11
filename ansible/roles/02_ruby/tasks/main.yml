@@ -17,6 +17,24 @@
     repo: 'https://github.com/yuta-ushijima/raisetech-live8-sample-app.git'
     dest: "/home/{{ ansible_user }}/raisetech-live8-sample-app"
     #version: 'main'
+    force: yes
+# アプリをデプロイするために必要なdirectoryを作成しておく
+- name: directory created
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - path: "{{ app_dir }}/tmp/pids"
+      owner: "ec2-user"
+      group: "ec2-user"
+      mode: "775"
+    - path: "{{ app_dir }}/tmp/sockets"
+      owner: "ec2-user"
+      group: "ec2-user"
+      mode: "775"
 
 # rbenvのインストール
 - name: rbenv clone
@@ -94,7 +112,7 @@
 #installed bundler
 - name: installed check bundler {{ bundler_version }}
   shell: |
-    "bundler --version | grep {{ bundler_version }}"
+    bash -lc "bundler --version | grep {{ bundler_version }}"
   args:
     chdir: "{{ app_dir }}"
   ignore_errors: true
@@ -110,14 +128,8 @@
     state: present
   environment:
     RBENV_VERSION: "{{ ruby_version }}"
-    
-- name: rails install
-  gem:
-    name: rails
-    version: "{{ rails_version }}"
-    executable: /home/ec2-user/.rbenv/shims/gem
-    state: present
-  
+
+
 
 
 

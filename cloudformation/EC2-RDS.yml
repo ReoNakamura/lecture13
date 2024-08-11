@@ -13,11 +13,6 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
 
-  CidrIpFromInternet:
-    Type: String
-    Description: CIDR IP range for allowing access from the internet
-    Default: 218.220.113.241/32
-
  
 Resources: 
   #ec2のセキュリティーグループ
@@ -39,7 +34,7 @@ Resources:
       FromPort: 22
       ToPort: 22
       GroupId: !Ref CfEc2TestSecurityGroup
-      CidrIp: !Ref CidrIpFromInternet
+      CidrIp: 0.0.0.0/0
   EC2SGIngressHttp:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
@@ -98,11 +93,20 @@ Resources:
               - Effect: "Allow"
                 Action: "s3:*"
                 Resource: "*"
+      
+        - PolicyName: MyPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                Resource: "*"
   #ec2インスタンス
   CfTestEC2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      KeyName: RaiesTech 
+      KeyName: lecture13 
       ImageId: !Ref OS
       InstanceType: t2.micro
       IamInstanceProfile: !Ref iamInstanceProfile
@@ -131,7 +135,7 @@ Resources:
     Properties:
       Type: "application"
       Scheme: "internet-facing"
-      Name: !Sub ${NameBase}-alb
+      Name: TestALB
       Tags:
         - Key: Name
           Value: !Sub ${NameBase}-alb
@@ -193,7 +197,7 @@ Resources:
         SecretStringTemplate: '{"username": "admin"}'
         GenerateStringKey: "password"
         PasswordLength: 16
-        ExcludeCharacters: '"@/\'
+        ExcludeCharacters: '"@/\}{~!`'
 
   #rdsインスタンス
   RDSInstance:
@@ -229,11 +233,16 @@ Outputs:
     Export: 
       Name: !Sub ${NameBase}-CfTestEC2Instance
 
-  RDSInstance:
-    Description: "The name of the RDS"
-    Value: !Ref RDSInstance
-    Export: 
-      Name: !Sub ${NameBase}-RDSInstance
+  
+  EC2PublicIP:
+    Value: !GetAtt CfTestEC2Instance.PublicIp
+    Description: Public IP of EC2 instance
+    Export:
+      Name: EC2-PublicIP
+  RDSSecret:
+    Description: "RDS password"
+    Value: !Sub '{{resolve:secretsmanager:${RDSSecret}:SecretString:password}}'
+   
  
   RDSInstanceEndpoint:
     Description: "The connection endpoint"
