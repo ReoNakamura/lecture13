@@ -120,6 +120,21 @@ jobs:
       - ansible-playbook/playbook:
           playbook: ansible/playbook.yml
           playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
+
+  execute-serverspec:
+    executor: ruby/defarlt       
+    steps:
+      - checkout
+      - run:
+          name: serverspec setup 
+          command: |
+            cd server-spec-sample
+            bundle install
+      - run:
+          name: execution for serverspec the test
+          command: |
+            cd server-spec-sample/spec
+            rake spec
 workflows:
   raisetech:
     jobs:
@@ -128,4 +143,6 @@ workflows:
       - execute-ansible:
           requires:
             - execute-cloudformation
-
+      - execute-serverspec:
+          requires:
+            - execute-ansibles
