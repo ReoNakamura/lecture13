@@ -88,7 +88,7 @@ jobs:
           command: python -m pip install --force-reinstall --upgrade pip
       - add_ssh_keys: 
           fingerprints:
-            - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
+            - "${KEY_FINGERPRINT}"
       - run: 
           name: install ansible
           command: pip install ansible==2.10.7
@@ -126,12 +126,30 @@ jobs:
       - image: cimg/ruby:3.2.3        
     steps:
       - checkout
+      - attach_workspace:  # 最初に.env_varに設定した変数を使いたいので内容を引き継ぐ
+          at: .
+      - add_ssh_keys: 
+          fingerprints:
+            - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
       - run: ruby --version
       - run:
           name: serverspec setup 
           command: |
             cd server-spec-sample
             bundle install
+
+      - run: 
+          name: crate ~/.ssh/config targat config
+          command: |
+            set -x
+            source .env_var
+            mkdir -p ~/.ssh
+            touch ~/.ssh/cinfig 
+            echo "Host target" >> ~/.ssh/config
+            echo "HostName ${EC2PublicIP}" >> ~/.ssh/config
+            echo "User ec2-user" >> ~/.ssh/config
+
+
       - run:
           name: execution for serverspec the test
           command: |
