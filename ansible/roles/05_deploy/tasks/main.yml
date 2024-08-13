@@ -167,7 +167,7 @@
   
 - name: puma service start 
   become: true
-  ansible.builtin.systemd_service:
-    name: puma
+  ansible.builtin.systemd_service:  
+    name: puma.service
     state: restarted
     enabled: true
