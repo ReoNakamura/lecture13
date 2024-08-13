@@ -6,7 +6,7 @@ describe package('nginx') do
   it { should be_installed }
 end
 
-describe command('bash -lc "~/.rbenv/shims/ruby -v"') do
+describe command('source ~/.bash_profile && ~/.rbenv/shims/ruby -v's) do
   its(:stdout) { should match /ruby 3\.2\.3/ }
 end
 describe service('nginx') do
