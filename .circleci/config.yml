@@ -144,7 +144,6 @@ jobs:
             set -x
             source .env_var
             mkdir -p ~/.ssh
-            touch ~/.ssh/cinfig 
             echo "Host target" >> ~/.ssh/config
             echo "HostName ${EC2PublicIP}" >> ~/.ssh/config
             echo "User ec2-user" >> ~/.ssh/config

@@ -166,5 +166,8 @@
     state: restarted
   
 - name: puma service start 
-  shell: |
-    sudo systemctl start puma.service
+  become: true
+  ansible.builtin.systemd_service:
+    name: puma.service
+    state: restarted
+  enabled: true
