@@ -7,7 +7,7 @@ describe package('nginx') do
 end
 
 describe command('source ~/.bash_profile && ~/.rbenv/shims/ruby -v') do
-  its(:stdout) { should match /ruby 3\.2\.3/ }
+  its(:stdout) { should match /ruby 3.2.3/ }
 end
 describe service('nginx') do
   it { should be_running }
