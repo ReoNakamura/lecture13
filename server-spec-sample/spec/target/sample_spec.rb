@@ -6,8 +6,8 @@ describe package('nginx') do
   it { should be_installed }
 end
 
-describe command('PATH="$HOME/.rbenv/shims:$PATH" ruby -v') do
-  its(:stdout) { should match /ruby 3.2.3/ }
+describe command('/home/ec2-user/.rbenv/shims/ruby -v') do
+  its(:stdout) { should include "ruby 3.2.3" }
 end
 describe service('nginx') do
   it { should be_running }
