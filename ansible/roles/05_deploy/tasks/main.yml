@@ -166,5 +166,8 @@
     state: restarted
   
 - name: puma service start 
-  shell: |
-    sudo systemctl start puma.service
+  become: true
+  service:  
+    name: puma.service
+    state: restarted
+    enabled: true
