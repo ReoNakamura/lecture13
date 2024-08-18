@@ -130,7 +130,7 @@ jobs:
           at: .
       - add_ssh_keys: 
           fingerprints:
-            - SHA256:z6G5uUi9DsBbxk/aZ16M3ZjLEcZlKCeurc1XD88gndw
+             - "${KEY_FINGERPRINT}"
       - run: ruby --version
       - run:
           name: serverspec setup 
