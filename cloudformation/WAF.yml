@@ -22,7 +22,7 @@ Resources:
       Scope: REGIONAL
       Tags: 
         - key: Name
-          value: !Sub ${NameBase}-IPSet
+          Value: !Sub ${NameBase}-IPSet
 
   WebACL:
     type: AWS::WAFv2::WebACL

@@ -255,8 +255,6 @@ Outputs:
   ALBArn:
     Description: "The ARN of the ALB "  
     Value: !Ref TestALB
-    Export:
-      Name: "ALBArn"
 
   EC2RoleName:
     Value: !Ref EC2Role
