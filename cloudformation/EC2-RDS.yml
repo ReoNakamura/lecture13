@@ -254,7 +254,7 @@ Outputs:
 
   ALBArn:
     Description: "The ARN of the ALB "  
-    value: !GetAtt TestALB.Arn
+    Value: !GetAtt TestALB.Arn
   
   EC2RoleName:
     Value: !Ref EC2Role
