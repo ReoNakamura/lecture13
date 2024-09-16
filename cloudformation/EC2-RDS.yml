@@ -251,8 +251,11 @@ Outputs:
   ALBEndpoint:
     Description: "The DNS name of the ALB"
     Value: !GetAtt TestALB.DNSName
-    
 
+  ALBArn:
+    Description: "The ARN of the ALB "  
+    value: !GetAtt TestALB.Arn
+  
   EC2RoleName:
     Value: !Ref EC2Role
     Export:
