@@ -1,7 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 
-Description: 
-   Create WAF of ALB
+Description: Create WAF of ALB
 
 Parameters: 
   NameBase:
@@ -20,9 +19,7 @@ Resources:
       IPAddressVersion: IPV4
       Name: myIPSet
       Scope: REGIONAL
-      Tags: 
-        - key: Name
-          Value: !Sub ${NameBase}-IPSet
+      
 
   WebACL:
     type: AWS::WAFv2::WebACL
