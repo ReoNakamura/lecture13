@@ -254,8 +254,10 @@ Outputs:
 
   ALBArn:
     Description: "The ARN of the ALB "  
-    Value: !GetAtt TestALB.Arn
-  
+    Value: !Ref TestALB
+    Export:
+      Name: "ALBArn"
+
   EC2RoleName:
     Value: !Ref EC2Role
     Export:
