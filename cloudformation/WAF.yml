@@ -38,7 +38,7 @@ Resources:
             Block: {}
           Statement:
             IPSetReferenceStatement:
-              Arn: !GetAtt MyIPSet.Arn
+              Arn: !Sub "arn:aws:wafv2:${AWS::Region}:${AWS::AccountId}:regional/ipset/${!Ref MyIPSet}"
           VisibilityConfig:
             CloudWatchMetricsEnabled: true  #CloudWatchにメトリクスを送るかどうか
             MetricName: BlockSpecificIP
