@@ -17,7 +17,7 @@ Resources:
         - 192.168.0.0/32
       Description: "Test the block of IP address"
       IPAddressVersion: IPV4
-      Name: myIPSet
+      Name: MyIPSet
       Scope: REGIONAL
       
 
@@ -29,7 +29,7 @@ Resources:
       Scope: REGIONAL #ここはCLOUDFRONTかの二択、CloudForntかリージョン内のALBなどのリソースか
       VisibilityConfig:
         CloudWatchMetricsEnabled: true #CloudWatchにメトリクスを送るかどうか
-        MetricName: !Sub ${NameBase}-MyWebACL
+        MetricName: !Sub "${NameBase}-MyWebACL"
         SampledRequestsEnabled: true   #ルールが一致したリクエストをサンプルとして保存するかどうか
       Rules:
         - Name: BlockSpecificIP
