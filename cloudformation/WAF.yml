@@ -23,6 +23,7 @@ Resources:
 
   WebACL:
     Type: AWS::WAFv2::WebACL
+    DependsOn: MyIPSet
     Properties:
       DefaultAction:
         Allow: {}
