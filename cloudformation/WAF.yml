@@ -23,7 +23,6 @@ Resources:
 
   WebACL:
     Type: AWS::WAFv2::WebACL
-    DependsOn: MyIPSet
     Properties:
       DefaultAction:
         Allow: {}
@@ -39,7 +38,7 @@ Resources:
             Block: {}
           Statement:
             IPSetReferenceStatement:
-              Arn: !Sub "arn:aws:wafv2:${AWS::Region}:${AWS::AccountId}:regional/ipset/${MyIPSet.Id}"
+               Arn: !GetAtt MyIPSet.Arn
           VisibilityConfig:
             CloudWatchMetricsEnabled: true  #CloudWatchにメトリクスを送るかどうか
             MetricName: BlockSpecificIP
