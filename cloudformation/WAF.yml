@@ -9,17 +9,6 @@ Parameters:
     Default:  RaiseTech
 
 Resources:
-#アクセスを拒否するIPアドレスの設定,テストで自分のIPアドレスが入っている範囲を指定してみる
-  MyIPSet:
-    Type: AWS::WAFv2::IPSet
-    Properties:
-      Addresses: 
-        - 192.168.0.0/32
-      Description: "Test the block of IP address"
-      IPAddressVersion: IPV4
-      Name: MyIPSet
-      Scope: REGIONAL
-      
 
   WebACL:
     Type: AWS::WAFv2::WebACL
@@ -38,7 +27,7 @@ Resources:
             Block: {}
           Statement:
             IPSetReferenceStatement:
-               Arn: !ImportValue MyIPSet
+               Arn: !ImportValue MyIPSet-Arn
           VisibilityConfig:
             CloudWatchMetricsEnabled: true  #CloudWatchにメトリクスを送るかどうか
             MetricName: BlockSpecificIP
