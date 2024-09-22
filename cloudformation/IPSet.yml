@@ -17,7 +17,7 @@ Resources:
       
 Outputs:
 
-  MyIPSetArn:
+  MyIPSet:
     Value: !GetAtt MyIPSet.Arn
     Export:
       Name:  MyIPSet-Arn
