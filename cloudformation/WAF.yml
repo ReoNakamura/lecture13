@@ -38,7 +38,7 @@ Resources:
             Block: {}
           Statement:
             IPSetReferenceStatement:
-               Arn: !GetAtt MyIPSet.Arn
+               Arn: !ImportValue MyIPSet.Arn
           VisibilityConfig:
             CloudWatchMetricsEnabled: true  #CloudWatchにメトリクスを送るかどうか
             MetricName: BlockSpecificIP

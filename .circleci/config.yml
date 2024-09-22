@@ -36,6 +36,7 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/VPC.yml --stack-name circleci-test-VPC
             aws cloudformation deploy --template-file cloudformation/EC2-RDS.yml --stack-name circleci-test-EC2-RDS --capabilities CAPABILITY_NAMED_IAM
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
+            aws cloudformation deploy --template-file cloudformation/IPSet.yml --stack-name circleci-test-IPset
             aws cloudformation deploy --template-file cloudformation/WAF.yml --stack-name circleci-test-WAF
 
       - run:
