@@ -21,18 +21,7 @@ Resources:
         MetricName: !Sub "${NameBase}-MyWebACL"
         SampledRequestsEnabled: true   #ルールが一致したリクエストをサンプルとして保存するかどうか
       Rules:
-        - Name: BlockSpecificIP
-          Priority: 1
-          Statement:
-            IPSetReferenceStatement:
-               Arn: !ImportValue MyIPSet-Arn
-          Action:
-            Block: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true  #CloudWatchにメトリクスを送るかどうか
-            MetricName: BlockSpecificIP
-            SampledRequestsEnabled: true   #ルールが一致したリクエストをサンプルとして保存するかどうか
-
+        
         - Name: AWSManagedRulesCommonRuleSet
           Priority: 2
           Statement:
