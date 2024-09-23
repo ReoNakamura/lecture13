@@ -73,7 +73,7 @@ jobs:
             echo "RDS_PASSWORD: $RDS_PASSWORD"
             echo "DNS_NAME: $DNS_NAME"
             echo "S3_NAME: $S3_NAME"
-            timeout: 30m  # 30分にタイムアウトを設定
+            timeout: 30m
       - persist_to_workspace:
           root: .
           paths:
