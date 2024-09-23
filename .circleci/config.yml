@@ -38,7 +38,7 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
             aws cloudformation deploy --template-file cloudformation/IPSet.yml --stack-name circleci-test-IPset
             aws cloudformation deploy --template-file cloudformation/WAF.yml --stack-name circleci-test-WAF
-
+          
       - run:
           name: 環境変数の設定
           command: |
@@ -73,7 +73,7 @@ jobs:
             echo "RDS_PASSWORD: $RDS_PASSWORD"
             echo "DNS_NAME: $DNS_NAME"
             echo "S3_NAME: $S3_NAME"
-            timeout: 30m
+          no_output_timeout: 30m
       - persist_to_workspace:
           root: .
           paths:
