@@ -75,9 +75,9 @@ Resources:
             CloudWatchMetricsEnabled: true
             MetricName: CustomRuleMetric
             SampledRequestsEnabled: true
-            
+
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
     Properties:
       ResourceArn: !ImportValue ALBArnExport
-      WebACLArn: !Ref WebACL
+      WebACLArn: !GetAtt WebACL.Arn
