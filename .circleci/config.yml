@@ -9,7 +9,7 @@ orbs:
 jobs:
   cfn-lint:
     docker:
-      - image: cimg/python:3.11.0
+      - image: cimg/python:3.11.0 
     steps:
       - checkout
       - run: python --version
@@ -73,6 +73,7 @@ jobs:
             echo "RDS_PASSWORD: $RDS_PASSWORD"
             echo "DNS_NAME: $DNS_NAME"
             echo "S3_NAME: $S3_NAME"
+            timeout: 30m  # 30分にタイムアウトを設定
       - persist_to_workspace:
           root: .
           paths:
