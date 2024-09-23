@@ -48,33 +48,7 @@ Resources:
         CloudWatchMetricsEnabled: true #CloudWatchにメトリクスを送るかどうか
         MetricName: !Sub "${NameBase}-MyWebACL"
         SampledRequestsEnabled: true   #ルールが一致したリクエストをサンプルとして保存するかどうか
-      Rules:
-        
-        - Name: AWSManagedRulesCommonRuleSet
-          Priority: 1
-          Action:
-            Block: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true  
-            MetricName: AWSManagedRules
-            SampledRequestsEnabled: true 
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesCommonRuleSet #AWSが提供しているマネージドルールを使用する
-              ExcludedRules: [] 
-
-        - Name: CustomRuleGroup
-          Priority: 2
-          Statement:
-            RuleGroupReferenceStatement:
-              Arn: !GetAtt WAFRuleGroup.Arn
-          Action:
-            Allow: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: CustomRuleMetric
-            SampledRequestsEnabled: true
+      
 
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
