@@ -23,11 +23,11 @@ Resources:
       Rules:
         - Name: BlockSpecificIP
           Priority: 1
-          Action:
-            Block: {}
           Statement:
             IPSetReferenceStatement:
                Arn: !ImportValue MyIPSet-Arn
+          Action:
+            Block: {}
           VisibilityConfig:
             CloudWatchMetricsEnabled: true  #CloudWatchにメトリクスを送るかどうか
             MetricName: BlockSpecificIP
