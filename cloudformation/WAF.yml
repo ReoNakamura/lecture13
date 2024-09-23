@@ -9,6 +9,17 @@ Parameters:
     Default:  RaiseTech
 
 Resources:
+
+  #アクセスを拒否するIPアドレスの設定,テストで自分のIPアドレスが入っている範囲を指定してみる
+  MyIPSet:
+    Type: AWS::WAFv2::IPSet
+    Properties:
+      Addresses: 
+        - 192.168.0.0/32
+      Description: "Test the block of IP address"
+      IPAddressVersion: IPV4
+      Name: MyIPSet
+      Scope: REGIONAL
   
   WAFRuleGroup:
     Type: AWS::WAFv2::RuleGroup
@@ -55,7 +66,7 @@ Resources:
           Priority: 0
           Statement:
             IPSetReferenceStatement:
-              Arn: !ImportValue MyIPSet-Arn
+              Arn: !GetAtt MyIPSet.Arn
           VisibilityConfig:
             CloudWatchMetricsEnabled: true
             MetricName: "MyWAFv2WebACLRuleIPSetMetric"
