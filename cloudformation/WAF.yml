@@ -23,19 +23,20 @@ Resources:
       Rules:
         
         - Name: AWSManagedRulesCommonRuleSet
-          Priority: 2
+          Priority: 1
+          Action:
+            Block: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true  
+            MetricName: AWSManagedRules
+            SampledRequestsEnabled: true 
           Statement:
             ManagedRuleGroupStatement:
               VendorName: AWS
               Name: AWSManagedRulesCommonRuleSet #AWSが提供しているマネージドルールを使用する
-          Action:
-            Allow: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true  
-            MetricName: AWSManagedRules
-            SampledRequestsEnabled: true    
+              ExcludedRules: [] 
         - Name: rbrNoCustomKeys
-          Priority: 3
+          Priority: 2
           Statement:
             RateBasedStatement:
               Limit: 1000                    #１つのIPアドレスから５分間に1000回以上のリクエストがきたらブロックする設定
