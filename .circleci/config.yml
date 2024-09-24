@@ -123,7 +123,7 @@ jobs:
           no_output_timeout: 30m
       - run:
           name: Run Ansible Playbook with increased timeout
-          no_output_timeout: 30m  
+          no_output_timeout: 60m  
           command: |
             ansible-playbook ansible/playbook.yml -u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key ~/AWS-access/lecture13.pem
           
