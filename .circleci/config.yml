@@ -121,10 +121,13 @@ jobs:
             sed -i "s/S3_NAME/${S3_NAME}/g" ansible/playbook.yml
             cat ansible/playbook.yml
           no_output_timeout: 30m
-      - ansible-playbook/playbook:
-          playbook: ansible/playbook.yml
-          playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --timeout=1800 --private-key  ~/AWS-access/lecture13.pem'
+      - run:
+          name: Run Ansible Playbook with increased timeout
+          no_output_timeout: 30m  
+          command: |
+            ansible-playbook ansible/playbook.yml -u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key ~/AWS-access/lecture13.pem
           
+
   execute-serverspec:
     docker:
       - image: cimg/ruby:3.2.3        
