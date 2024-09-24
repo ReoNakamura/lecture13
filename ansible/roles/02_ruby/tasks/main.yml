@@ -97,7 +97,7 @@
   ignore_errors: true
 
 - name: ruby install
-  shell: bash -lc "rbenv install {{ ruby_version }}"
+  shell: bash -lc "rbenv install {{ ruby_version }} -v"
   when: ruby_check is failed
   register: ruby_install
 
