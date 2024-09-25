@@ -82,9 +82,9 @@ Resources:
               - ActionToUse:
                   Count: {}
                 Name: NoUserAgent_HEADER
-              ExcludedRules: []
-          OverrideAction:
-            None: {}
+              ExcludedRules: []   #除外するルールを入れるリスト
+          Action:
+            Block: {}
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
