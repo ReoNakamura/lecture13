@@ -104,7 +104,7 @@
 - name: debug ruby install
   become: true
   debug:
-    msg: "{ruby_install}"
+    msg: "{{ ruby_install }}"
 
 - name: rbenv rehash
   shell: bash -lc "rbenv rehash"
