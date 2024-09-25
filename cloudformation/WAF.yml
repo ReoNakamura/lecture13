@@ -72,18 +72,23 @@ Resources:
             MetricName: "MyWAFv2WebACLRuleIPSetMetric"
             SampledRequestsEnabled: false
 
-        - Name: AWSManagedRulesCommonRuleSet
-          Priority: 1
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 0
           Statement:
             ManagedRuleGroupStatement:
               VendorName: AWS
               Name: AWSManagedRulesCommonRuleSet
-          Action:
-            Allow: {}  # マネージドルールに一致した場合許可
+              RuleActionOverrides:
+              - ActionToUse:
+                  Count: {}
+                Name: NoUserAgent_HEADER
+              ExcludedRules: []
+          OverrideAction:
+            None: {}
           VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: AWSManagedRules
             SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName: AWS-AWSManagedRulesCommonRuleSet
 
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
