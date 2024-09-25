@@ -91,21 +91,7 @@ Resources:
             CloudWatchMetricsEnabled: true
             MetricName: AWS-AWSManagedRulesCommonRuleSet
 
-        - Name: rbrNoCustomKeys
-          Priority: 2
-          Statement:
-            RateBasedStatement:
-              Limit: 1000                    #１つのIPアドレスから５分間に1000回以上のリクエストがきたらブロックする設定
-              AggregateKeyType: FORWARDED_IP
-              ForwardedIPConfig:
-                HeaderName: X-Forwarded-For  #X-Forwarded-ForというHTTPヘッダーを使ってIPアドレスを集計するコードらしい
-                FallbackBehavior: MATCH      #X-Forwarded-ForヘッダーがなくてもソースIPをそのまま使ってルールを適応する
-          Action:                          #ロードバランサーやプロキシを通過していなくてもクライアントの実際のIPIPをもとにしてルールを適応する
-            Block: {}
-          VisibilityConfig:
-            SampledRequestsEnabled: true   
-            CloudWatchMetricsEnabled: true 
-            MetricName: rbrNoCustomKeys
+        
 
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
