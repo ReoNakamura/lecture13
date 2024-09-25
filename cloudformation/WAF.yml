@@ -73,7 +73,7 @@ Resources:
             SampledRequestsEnabled: false
 
         - Name: AWS-AWSManagedRulesCommonRuleSet
-          Priority: 0
+          Priority: 1
           Statement:
             ManagedRuleGroupStatement:
               VendorName: AWS
