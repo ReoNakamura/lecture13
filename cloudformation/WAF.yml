@@ -48,6 +48,7 @@ Resources:
             CloudWatchMetricsEnabled: true 
             MetricName: RateLimitExceeded
 
+        
 
   WebACL:
     Type: AWS::WAFv2::WebACL
@@ -76,19 +77,31 @@ Resources:
           Priority: 1
           Statement:
             ManagedRuleGroupStatement:
-              VendorName: AWS
+              VendorName: AWS          #AWSが提供しているマネージドルールを使用する
               Name: AWSManagedRulesCommonRuleSet
-              RuleActionOverrides:
+              RuleActionOverrides:  #特定のルールのactionを上書き出来る
               - ActionToUse:
-                  Count: {}
+                  Block: {}
                 Name: NoUserAgent_HEADER
               ExcludedRules: []   #除外するルールを入れるリスト
-          Action:
+          Action:                 #ルール全体のActionの設定
             Block: {}
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
             MetricName: AWS-AWSManagedRulesCommonRuleSet
+
+        - Name: CustomRuleGroup
+          Priority: 2
+          Statement:
+            RuleGroupReferenceStatement:
+              Arn: !GetAtt WAFRuleGroup.Arn  #作成したルールグループのArnを参照させる
+          Action:
+            Block: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: CustomRuleMetric
+            SampledRequestsEnabled: true
 
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
