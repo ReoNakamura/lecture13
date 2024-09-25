@@ -33,7 +33,7 @@ Resources:
         MetricName: MyRuleGroupMetrics
       Rules:
         - Name: rbrNoCustomKeys
-          Priority: 1
+          Priority: 3
           Statement:
             RateBasedStatement:
               Limit: 1000                    #１つのIPアドレスから５分間に1000回以上のリクエストがきたらブロックする設定
