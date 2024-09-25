@@ -89,10 +89,9 @@ Resources:
           VisibilityConfig:
             SampledRequestsEnabled: true
             CloudWatchMetricsEnabled: true
-            MetricName: AWS-AWSManagedRulesCommonRuleSet
+            MetricName: AWS-AWSManagedRulesCommonRuleSet 
 
         
-
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
     Properties:
