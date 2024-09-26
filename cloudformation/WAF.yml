@@ -77,7 +77,7 @@ Resources:
           Priority: 1
           Statement:
             ManagedRuleGroupStatement:
-              VendorName: AWS          #AWSが提供しているマネージドルールを使用する
+              VendorName: AWS         
               Name: AWSManagedRulesCommonRuleSet
               RuleActionOverrides:  #特定のルールのactionを上書き出来る
               - ActionToUse:
