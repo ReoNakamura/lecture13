@@ -81,7 +81,7 @@ Resources:
               Name: AWSManagedRulesCommonRuleSet
               RuleActionOverrides:  #特定のルールのactionを上書き出来る
               - ActionToUse:
-                  Block: {}
+                  Allow: {}
                 Name: NoUserAgent_HEADER
           Action:                 #ルール全体のActionの設定
             Block: {}
