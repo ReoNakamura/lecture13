@@ -83,7 +83,6 @@ Resources:
               - ActionToUse:
                   Block: {}
                 Name: NoUserAgent_HEADER
-              ExcludedRules: []   #除外するルールを入れるリスト
           Action:                 #ルール全体のActionの設定
             Block: {}
           VisibilityConfig:
