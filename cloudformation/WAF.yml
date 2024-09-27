@@ -48,7 +48,17 @@ Resources:
             CloudWatchMetricsEnabled: true 
             MetricName: RateLimitExceeded
 
-        
+        - Name: CustomRuleGroup
+          Priority: 2
+          Statement:
+            RuleGroupReferenceStatement:
+              Arn: !GetAtt WAFRuleGroup.Arn
+          Action:
+            Allow: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: CustomRuleMetric
+            SampledRequestsEnabled: true
 
   WebACL:
     Type: AWS::WAFv2::WebACL
