@@ -64,7 +64,7 @@ Resources:
         - Name: "MyWAFv2WebACLRuleIPSet"
           Action:
             Allow: {}
-          Priority: 0
+          Priority: 1
           Statement:
             IPSetReferenceStatement:
               Arn: !GetAtt MyIPSet.Arn
@@ -73,6 +73,20 @@ Resources:
             MetricName: "MyWAFv2WebACLRuleIPSetMetric"
             SampledRequestsEnabled: false
 
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 2
+          Action:                          #ロードバランサーやプロキシを通過していなくてもクライアントの実際のIPIPをもとにしてルールを適応する
+            Block: {}
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            SampledRequestsEnabled: true
+            MetricName: AWS-AWSManagedRulesCommonRuleSet
         
         
   WebACLAssociation:                      #WAFとALBの関連付け
