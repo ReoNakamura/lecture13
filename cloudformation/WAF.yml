@@ -63,7 +63,7 @@ Resources:
       Rules:
         - Name: "MyWAFv2WebACLRuleIPSet"
           Action:
-              Allow: {}
+            Allow: {}
           Priority: 0
           Statement:
             IPSetReferenceStatement:
@@ -73,17 +73,7 @@ Resources:
             MetricName: "MyWAFv2WebACLRuleIPSetMetric"
             SampledRequestsEnabled: false
 
-        - Name: CustomRuleGroup
-          Priority: 1
-          Statement:
-            RuleGroupReferenceStatement:
-              Arn: !GetAtt WAFRuleGroup.Arn
-          Action:
-            Allow: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            MetricName: CustomRuleMetric
-            SampledRequestsEnabled: true
+        
         
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
