@@ -33,7 +33,7 @@ Resources:
         MetricName: MyRuleGroupMetrics
       Rules:
         - Name: rbrNoCustomKeys
-          Priority: 3
+          Priority: 0
           Statement:
             RateBasedStatement:
               Limit: 1000                    #１つのIPアドレスから５分間に1000回以上のリクエストがきたらブロックする設定
@@ -74,7 +74,7 @@ Resources:
             SampledRequestsEnabled: false
 
         - Name: CustomRuleGroup
-          Priority: 2
+          Priority: 1
           Statement:
             RuleGroupReferenceStatement:
               Arn: !GetAtt WAFRuleGroup.Arn
