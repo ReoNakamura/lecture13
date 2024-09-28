@@ -73,20 +73,7 @@ Resources:
             MetricName: "MyWAFv2WebACLRuleIPSetMetric"
             SampledRequestsEnabled: false
 
-        - Name: AWS-AWSManagedRulesCommonRuleSet
-          Priority: 2
-          Action:                          #ロードバランサーやプロキシを通過していなくてもクライアントの実際のIPIPをもとにしてルールを適応する
-            Block: {}
-          Statement:
-            ManagedRuleGroupStatement:
-              VendorName: AWS
-              Name: AWSManagedRulesCommonRuleSet
-          OverrideAction:
-            None: {}
-          VisibilityConfig:
-            CloudWatchMetricsEnabled: true
-            SampledRequestsEnabled: true
-            MetricName: AWS-AWSManagedRulesCommonRuleSet
+        
         
         
   WebACLAssociation:                      #WAFとALBの関連付け
