@@ -61,7 +61,7 @@ Resources:
         MetricName: !Sub "${NameBase}-MyWebACL"
         SampledRequestsEnabled: true   #ルールが一致したリクエストをサンプルとして保存するかどうか
       Rules:
-        - Name: "MyWAFv2WebACLRuleIPSet"
+        - Name: "MyRuleIPSet"
           Action:
             Allow: {}
           Priority: 1
