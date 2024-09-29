@@ -89,7 +89,17 @@ Resources:
             MetricName: AWSManagedRulesCommonRuleSet
             SampledRequestsEnabled: true
         
-        
+        - Name: "CustomRuleGroup"
+          Priority: 3
+          Statement:
+            RuleGroupReferenceStatement:   
+              Arn: !GetAtt WAFRuleGroup.Arn
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: "CustomRuleMetric"
+            SampledRequestsEnabled: true
         
   WebACLAssociation:                      #WAFとALBの関連付け
     Type: AWS::WAFv2::WebACLAssociation
