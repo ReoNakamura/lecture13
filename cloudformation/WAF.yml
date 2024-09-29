@@ -73,6 +73,21 @@ Resources:
             MetricName: "MyWAFv2WebACLRuleIPSetMetric"
             SampledRequestsEnabled: false
 
+        - Name: AWS-AWSManagedRulesCommonRuleSet
+          Priority: 2
+          Statement:
+            ManagedRuleGroupStatement:
+              VendorName: AWS
+              Name: AWSManagedRulesCommonRuleSet
+              ExcludedRules:
+                - Name: SizeRestrictions_BODY
+                - Name: CrossSiteScripting_BODY
+          OverrideAction:
+            None: {}
+          VisibilityConfig:
+            CloudWatchMetricsEnabled: true
+            MetricName: AWSManagedRulesCommonRuleSet
+            SampledRequestsEnabled: true
         
         
         
