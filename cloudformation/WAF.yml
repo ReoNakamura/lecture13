@@ -94,8 +94,8 @@ Resources:
           Statement:
             RuleGroupReferenceStatement:   
               Arn: !GetAtt WAFRuleGroup.Arn
-          OverrideAction:
-            None: {}
+          Action:
+            Block: {}
           VisibilityConfig:
             CloudWatchMetricsEnabled: true
             MetricName: "CustomRuleMetric"
