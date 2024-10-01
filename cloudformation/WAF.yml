@@ -63,7 +63,7 @@ Resources:
       Rules:
         - Name: "MyRuleIPSet"
           Action:
-            Block: {}
+            Count: {}
           Priority: 1
           Statement:
             IPSetReferenceStatement:
