@@ -15,7 +15,7 @@ Resources:
     Type: AWS::WAFv2::IPSet
     Properties:
       Addresses: 
-        - 192.168.0.0/32
+        - 218.220.113.241/32
       Description: "Test the block of IP address"
       IPAddressVersion: IPV4
       Name: MyIPSet
@@ -63,7 +63,7 @@ Resources:
       Rules:
         - Name: "MyRuleIPSet"
           Action:
-            Allow: {}
+            Block: {}
           Priority: 1
           Statement:
             IPSetReferenceStatement:
