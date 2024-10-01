@@ -15,7 +15,7 @@ Resources:
     Type: AWS::WAFv2::IPSet
     Properties:
       Addresses: 
-        - 218.220.113.241/32
+        - 218.220.0.0/24
       Description: "Test the block of IP address"
       IPAddressVersion: IPV4
       Name: MyIPSet
