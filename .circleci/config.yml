@@ -9,7 +9,7 @@ orbs:
 jobs:
   cfn-lint:
     docker:
-      - image: cimg/python:3.11.0
+      - image: cimg/python:3.11.0 
     steps:
       - checkout
       - run: python --version
@@ -36,7 +36,9 @@ jobs:
             aws cloudformation deploy --template-file cloudformation/VPC.yml --stack-name circleci-test-VPC
             aws cloudformation deploy --template-file cloudformation/EC2-RDS.yml --stack-name circleci-test-EC2-RDS --capabilities CAPABILITY_NAMED_IAM
             aws cloudformation deploy --template-file cloudformation/S3.yml --stack-name circleci-test-S3 --capabilities CAPABILITY_NAMED_IAM
-
+            #aws cloudformation deploy --template-file cloudformation/IPSet.yml --stack-name circleci-test-IPset
+            aws cloudformation deploy --template-file cloudformation/WAF.yml --stack-name circleci-test-WAF
+          
       - run:
           name: 環境変数の設定
           command: |
@@ -71,6 +73,7 @@ jobs:
             echo "RDS_PASSWORD: $RDS_PASSWORD"
             echo "DNS_NAME: $DNS_NAME"
             echo "S3_NAME: $S3_NAME"
+          no_output_timeout: 30m
       - persist_to_workspace:
           root: .
           paths:
@@ -117,9 +120,13 @@ jobs:
             sed -i "s/DNS_NAME/${DNS_NAME}/g" ansible/playbook.yml
             sed -i "s/S3_NAME/${S3_NAME}/g" ansible/playbook.yml
             cat ansible/playbook.yml
-      - ansible-playbook/playbook:
-          playbook: ansible/playbook.yml
-          playbook-options: '-u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key  ~/AWS-access/lecture13.pem'
+          no_output_timeout: 30m
+      - run:
+          name: Run Ansible Playbook with increased timeout
+          no_output_timeout: 60m  
+          command: |
+            ansible-playbook ansible/playbook.yml -u ec2-user -i ansible/inventory -e "RDS_PASSWORD=$RDS_PASSWORD" --private-key ~/AWS-access/lecture13.pem
+          
 
   execute-serverspec:
     docker:
